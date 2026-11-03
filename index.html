@@ -179,6 +179,16 @@ nav.tab .fab{color:var(--acc);font-weight:600}
 .swrap .item{border-bottom:0}
 .swdel{position:absolute;right:0;top:0;bottom:0;width:88px;border:0;background:var(--crit);color:#fff;font-weight:600;font-size:14px}
 .swi{position:relative;background:var(--card);transition:transform .2s ease;touch-action:pan-y;z-index:1}
+.kwrap{position:relative}
+.kwrap .bigamt{padding-right:96px}
+.ksuf{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:600;color:var(--muted);pointer-events:none}
+.lrowfoot{display:flex;align-items:center;gap:10px;margin-top:6px}
+.lrowfoot .lrowsum{margin-top:0}
+.lduong{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 7px;flex:none}
+.lduong.on{border-color:var(--acc);background:var(--accSoft);color:var(--acc)}
+.lduong input{width:16px;height:16px;accent-color:var(--acc);margin:0}
+.dbox{display:flex;justify-content:space-between;align-items:center;background:var(--accSoft);border-radius:12px;padding:10px 12px;font-weight:600}
+.dtag{font-size:11px;font-weight:700;background:var(--accSoft);color:var(--acc);border-radius:6px;padding:1px 6px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -234,6 +244,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>(Math.round(n||0)).toLocaleString('vi-VN')+'đ';
 const fmtShort=n=>{n=n||0;if(n>=1e6)return (n/1e6).toFixed(n>=1e7?0:1).replace('.0','').replace('.',',')+'tr';if(n>=1e3)return Math.round(n/1e3)+'k';return String(Math.round(n));};
+const parseK=s=>{s=String(s||'').trim();if(!s)return 0;const n=parseFloat(s.replace(/\./g,'').replace(',','.'));return isNaN(n)?0:Math.round(n*1000);};
 const parseAmt=s=>parseInt(String(s||'').replace(/\D/g,''),10)||0;
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const DOW=['CN','T2','T3','T4','T5','T6','T7'];
@@ -491,7 +502,7 @@ function openExpense(id){
   const d=new Date(draft.ts);
   const local=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
   openSheet(`<h2>${isNew?'Khoản chi mới':'Sửa khoản chi'}<button class="x" data-close>✕</button></h2>
-  <div class="field" id="f-amt"><label>Số tiền <span class="req">*</span></label><input class="input bigamt" id="amt" inputmode="numeric" placeholder="0đ" value="${draft.amount?draft.amount.toLocaleString('vi-VN'):''}" autocomplete="off">
+  <div class="field" id="f-amt"><label>Số tiền (nghìn đồng) <span class="req">*</span></label><div class="kwrap"><input class="input bigamt" id="amt" inputmode="decimal" placeholder="0" value="${draft.amount?String(draft.amount/1000).replace('.',','):''}" autocomplete="off"><span class="ksuf">.000đ</span></div><div class="hint" id="amtHint" style="margin-top:4px">${draft.amount?'= '+fmt(draft.amount):'VD: gõ 100 = 100.000đ'}</div>
     <div class="chips" style="margin:8px 0 0">${[20e3,30e3,50e3,100e3,200e3,500e3].map(v=>`<button class="chip" data-quick="${v}">${fmtShort(v)}</button>`).join('')}</div><div class="err">Nhập số tiền</div></div>
   <div class="field" id="f-cat"><label>Hạng mục <span class="req">*</span></label><div class="catgrid">${cats().map(c=>`<button data-cat="${esc(c.id)}" class="${draft.cat===c.id?'on':''}"><span>${esc(c.icon)}</span>${esc(c.name)}</button>`).join('')}</div><div class="err">Chọn hạng mục</div><div class="projection" id="proj"></div></div>
   <div class="field" id="f-note"><label>Nội dung chi <span class="req">*</span></label><input class="input" id="note" placeholder="VD: Ăn trưa với team, đổ xăng…" value="${esc(draft.note)}" maxlength="120"><div class="err">Ghi lại mục đích chi trước khi thanh toán</div></div>
@@ -504,7 +515,7 @@ function openExpense(id){
   :`<button class="btn pri" id="saveEdit">Lưu thay đổi</button><button class="btn danger" id="delExp">Xóa khoản chi</button>`}
   </div>`);
   const amt=$('#amt');
-  amt.oninput=()=>{const v=parseAmt(amt.value);draft.amount=v;amt.value=v?v.toLocaleString('vi-VN'):'';$('#f-amt').classList.remove('bad');updateProj();};
+  amt.oninput=()=>{amt.value=amt.value.replace(/[^0-9.,]/g,'');const v=parseK(amt.value);draft.amount=v;$('#amtHint').textContent=v?'= '+fmt(v):'VD: gõ 100 = 100.000đ';$('#f-amt').classList.remove('bad');updateProj();};
   updateProj();
   if(isNew)setTimeout(()=>amt.focus(),250);
 }
@@ -583,17 +594,18 @@ function lotRange(){
 }
 function lotStats(rows){
   const per={};lcfg().people.forEach(p=>per[p]={t:0,n:0});
-  let total=0,plus=0,minus=0,pts=0;
-  rows.forEach(l=>{const t=lotTotal(l);total+=t;pts+=l.res==='wait'?0:l.pts;
+  let total=0,plus=0,minus=0,pts=0,dTotal=0,dN=0;
+  rows.forEach(l=>{const t=lotTotal(l);total+=t;if(l.duong){dTotal+=t;dN++;}pts+=l.res==='wait'?0:l.pts;
     if(l.res==='win')plus++;else if(l.res==='lose')minus++;
     const ppl=l.people||[];ppl.forEach(p=>{per[p]=per[p]||{t:0,n:0};per[p].t+=t/ppl.length;per[p].n++;});});
-  return {per,total,plus,minus,pts};
+  return {per,total,plus,minus,pts,dTotal,dN};
 }
 function renderLotto(){
   const [a,b]=lotRange();const rows=lotList().filter(l=>l.date>=a&&l.date<=b);const st=lotStats(rows);
   let h=`<div class="seg" id="lotPer">${[['month','Tháng này'],['prev','Tháng trước'],['all','Tất cả']].map(([k,t])=>`<button data-lper="${k}" class="${LT.per===k?'on':''}">${t}</button>`).join('')}</div>`;
   h+=`<div class="card"><div class="label">Tổng cộng</div><div class="hero ${sign(st.total)}">${fmtK(st.total)}</div>
   <div class="sub">${rows.length} dòng · ${st.plus} dòng + · ${st.minus} dòng − · ${st.pts} điểm</div>
+  <div class="dbox mt"><span>🅳 Tổng Dương <span class="sub">(${st.dN} dòng)</span></span><b class="${sign(st.dTotal)}">${fmtK(st.dTotal)}</b></div>
   <table class="ltab mt"><thead><tr><th>Người</th><th>Số dòng</th><th style="text-align:right">Tiền</th></tr></thead><tbody>
   ${Object.entries(st.per).map(([p,v])=>`<tr><td>${esc(p)}</td><td>${v.n}</td><td class="${sign(v.t)}" style="text-align:right;font-weight:600">${fmtK(v.t)}</td></tr>`).join('')}
   </tbody></table>
@@ -601,8 +613,8 @@ function renderLotto(){
   if(LT.per==='all'&&rows.length){
     const months={};rows.forEach(l=>{const m=l.date.slice(0,7);(months[m]=months[m]||[]).push(l);});
     const ppl=lcfg().people;
-    h+=`<div class="card" style="overflow-x:auto"><div class="label">Theo tháng</div><table class="ltab mt"><thead><tr><th>Tháng</th><th style="text-align:right">Tổng</th>${ppl.map(p=>`<th style="text-align:right">${esc(p)}</th>`).join('')}</tr></thead><tbody>
-    ${Object.keys(months).sort().reverse().map(m=>{const s=lotStats(months[m]);return `<tr><td>${m.slice(5)}/${m.slice(2,4)}</td><td class="${sign(s.total)}" style="text-align:right;font-weight:600">${fmtK(s.total)}</td>${ppl.map(p=>`<td class="${sign(s.per[p].t)}" style="text-align:right">${s.per[p].n?fmtK(s.per[p].t):'–'}</td>`).join('')}</tr>`;}).join('')}
+    h+=`<div class="card" style="overflow-x:auto"><div class="label">Theo tháng</div><table class="ltab mt"><thead><tr><th>Tháng</th><th style="text-align:right">Tổng</th><th style="text-align:right">Dương</th>${ppl.map(p=>`<th style="text-align:right">${esc(p)}</th>`).join('')}</tr></thead><tbody>
+    ${Object.keys(months).sort().reverse().map(m=>{const s=lotStats(months[m]);return `<tr><td>${m.slice(5)}/${m.slice(2,4)}</td><td class="${sign(s.total)}" style="text-align:right;font-weight:600">${fmtK(s.total)}</td><td class="${sign(s.dTotal)}" style="text-align:right">${s.dN?fmtK(s.dTotal):'–'}</td>${ppl.map(p=>`<td class="${sign(s.per[p].t)}" style="text-align:right">${s.per[p].n?fmtK(s.per[p].t):'–'}</td>`).join('')}</tr>`;}).join('')}
     </tbody></table></div>`;
   }
   h+=`<div class="card" style="padding-top:4px">`;
@@ -612,7 +624,7 @@ function renderLotto(){
   rows.forEach(l=>{
     if(l.date!==cur){cur=l.date;const dt=rows.filter(x=>x.date===cur).reduce((s,x)=>s+lotTotal(x),0);const d=new Date(cur+'T00:00');h+=`<div class="dayhead"><span>${dLabel(d)}/${d.getFullYear()}</span><span class="${sign(dt)}">${fmtK(dt)}</span></div>`;}
     const t=lotTotal(l),n=(l.people||[]).length;
-    h+=`<div class="swrap"><button class="swdel" data-lotdel="${esc(l.id)}">🗑 Xóa</button><button class="item swi" data-lot="${esc(l.id)}"><div class="ico lnum">${esc(l.num)}</div><div class="t"><div class="n">${l.pts} điểm <span class="lsign ${sign(t)}">${resLabel(l)}</span></div><div class="m">${esc((l.people||[]).join(', '))}${n?' · mỗi người '+fmtK(t/n):''}${l.note?' · '+esc(l.note):''}</div></div><div class="amt ${sign(t)}">${fmtK(t)}</div></button></div>`;
+    h+=`<div class="swrap"><button class="swdel" data-lotdel="${esc(l.id)}">🗑 Xóa</button><button class="item swi" data-lot="${esc(l.id)}"><div class="ico lnum">${esc(l.num)}</div><div class="t"><div class="n">${l.pts} điểm <span class="lsign ${sign(t)}">${resLabel(l)}</span>${l.duong?' <span class="dtag">Dương</span>':''}</div><div class="m">${esc((l.people||[]).join(', '))}${n?' · mỗi người '+fmtK(t/n):''}${l.note?' · '+esc(l.note):''}</div></div><div class="amt ${sign(t)}">${fmtK(t)}</div></button></div>`;
   });
   h+=`</div>`;
   $('#v-lotto').innerHTML=h;
@@ -620,11 +632,11 @@ function renderLotto(){
 
 /* ---- Màn nhập dạng bảng ---- */
 let lform=null; // {editId, date, note, rows:[{num,pts,res,hits,people}]}
-const newRow=prev=>({num:'',pts:prev?prev.pts:5,res:'lose',hits:1,people:prev?[...prev.people]:[...lcfg().people]});
+const newRow=prev=>({num:'',pts:prev?prev.pts:5,res:'lose',hits:1,duong:prev?!!prev.duong:false,people:prev?[...prev.people]:[...lcfg().people]});
 const RES_OPTS=[['lose',1,'−'],['win',1,'+'],['win',2,'+ ×2'],['win',3,'+ ×3']];
 function openLot(id){
   const l=id?S.lots.get(id):null;
-  lform=l?{editId:l.id,date:l.date,note:l.note||'',rows:[{num:l.num,pts:l.pts,res:l.res==='wait'?'lose':l.res,hits:l.hits||1,people:[...(l.people||[])]}]}
+  lform=l?{editId:l.id,date:l.date,note:l.note||'',rows:[{num:l.num,pts:l.pts,res:l.res==='wait'?'lose':l.res,hits:l.hits||1,duong:!!l.duong,people:[...(l.people||[])]}]}
          :{editId:null,date:dKey(new Date()),note:'',rows:[newRow(),newRow()]};
   openSheet(`<h2>${l?'Sửa dòng':'Nhập'}<button class="x" data-close>✕</button></h2>
   <div class="field"><label>Ngày</label><input class="input" type="date" id="ldate" value="${lform.date}"></div>
@@ -648,7 +660,7 @@ function renderRows(focusIdx){
       <div class="ldd"><button class="input lddbtn" data-ddopen="${i}">${esc(pplLabel(r.people))}<span>▾</span></button>
         <div class="ddpanel" id="dd${i}"><button class="ddall" data-ddall="${i}">${r.people.length===c.people.length?'Bỏ chọn tất cả':'Chọn tất cả'}</button>${c.people.map(p=>`<label class="ddopt"><input type="checkbox" data-ddp="${i}" value="${esc(p)}" ${r.people.includes(p)?'checked':''}> ${esc(p)}</label>`).join('')}<button class="ddall" data-ddclose style="margin:4px 0 0">Xong</button></div></div>
       ${lform.editId?'<span></span>':`<button class="del" data-rowdel="${i}" aria-label="Xóa dòng">✕</button>`}
-    </div><div class="lrowsum">${r.pts?`${(c.rateBet*r.pts).toLocaleString('vi-VN')}k`:''}${t?` → <b class="${sign(t)}">${fmtK(t)}</b>`:''}${t&&r.people.length?` · mỗi người <b class="${sign(t)}">${fmtK(t/r.people.length)}</b>`:''}</div></div>`;
+    </div><div class="lrowfoot"><label class="lduong ${r.duong?'on':''}"><input type="checkbox" data-duong="${i}" ${r.duong?'checked':''}> Dương</label><div class="lrowsum">${r.pts?`${(c.rateBet*r.pts).toLocaleString('vi-VN')}k`:''}${t?` → <b class="${sign(t)}">${fmtK(t)}</b>`:''}${t&&r.people.length?` · mỗi người <b class="${sign(t)}">${fmtK(t/r.people.length)}</b>`:''}</div></div></div>`;
   }).join('');
   updSum();
   if(focusIdx!==undefined){const el=$(`[data-row="${focusIdx}"] [data-rf=num]`);el&&el.focus();}
@@ -663,6 +675,7 @@ function updSum(){
   const st=lotStats(rows.map(r=>({...r})));
   const ppl=Object.entries(st.per).filter(([,v])=>v.n);
   $('#lsum').innerHTML=rows.length?`<div class="row between"><span class="label">Tổng ${rows.length} dòng</span><b class="${sign(st.total)}" style="font-size:18px">${fmtK(st.total)}</b></div>
+   ${st.dN?`<div class="dbox mt"><span>🅳 Dương (${st.dN} dòng)</span><b class="${sign(st.dTotal)}">${fmtK(st.dTotal)}</b></div>`:''}
    <div class="lchips mt">${ppl.map(([p,v])=>`<span class="lchip">${esc(p)} <b class="${sign(v.t)}">${fmtK(v.t)}</b></span>`).join('')}</div>`:`<div class="sub">Nhập số và điểm để xem tổng.</div>`;
 }
 document.addEventListener('click',ev=>{if(!ev.target.closest('.ldd'))closeDD();},true);
@@ -678,16 +691,17 @@ document.addEventListener('input',ev=>{
 document.addEventListener('change',ev=>{
   const el=ev.target;if(!lform||!el.dataset)return;
   if(el.dataset.rf==='res'){const i=+el.closest('[data-row]').dataset.row,[res,h]=el.value.split('|');lform.rows[i].res=res;lform.rows[i].hits=+h;el.classList.toggle('pos',res==='win');el.classList.toggle('neg',res!=='win');updRowSum(i);}
+  if(el.dataset.duong!==undefined){const i=+el.dataset.duong;lform.rows[i].duong=el.checked;el.parentElement.classList.toggle('on',el.checked);updSum();return;}
   if(el.dataset.ddp!==undefined){const i=+el.dataset.ddp,r=lform.rows[i];r.people=lcfg().people.filter(p=>p===el.value?el.checked:r.people.includes(p));
     const b=$(`[data-ddopen="${i}"]`);b.firstChild.textContent=pplLabel(r.people);$(`[data-ddall="${i}"]`).textContent=r.people.length===lcfg().people.length?'Bỏ chọn tất cả':'Chọn tất cả';updRowSum(i);}
 });
 function lotReportText(){
   const [a,b]=lotRange();const rows=lotList().filter(l=>l.date>=a&&l.date<=b);const st=lotStats(rows);
   const title={month:'Tháng này',prev:'Tháng trước',all:'Tất cả'}[LT.per];
-  let s=`📊 BÁO CÁO SỐ HỌC — ${title}\nTổng: ${fmtK(st.total)} (${rows.length} dòng)\n\nTheo người:\n`;
+  let s=`📊 BÁO CÁO SỐ HỌC — ${title}\nTổng: ${fmtK(st.total)} (${rows.length} dòng)\nTổng Dương: ${fmtK(st.dTotal)} (${st.dN} dòng)\n\nTheo người:\n`;
   Object.entries(st.per).forEach(([p,v])=>{s+=`• ${p}: ${fmtK(v.t)} (${v.n} dòng)\n`;});
   s+=`\nChi tiết:\n`;
-  [...rows].reverse().forEach(l=>{const d=new Date(l.date+'T00:00');s+=`${pad(d.getDate())}/${pad(d.getMonth()+1)} · ${l.num} · ${l.pts}đ · ${resLabel(l)} · ${fmtK(lotTotal(l))} · ${(l.people||[]).join(', ')}\n`;});
+  [...rows].reverse().forEach(l=>{const d=new Date(l.date+'T00:00');s+=`${pad(d.getDate())}/${pad(d.getMonth()+1)} · ${l.num} · ${l.pts}đ · ${resLabel(l)} · ${fmtK(lotTotal(l))} · ${(l.people||[]).join(', ')}${l.duong?' · Dương':''}\n`;});
   return s;
 }
 function lotClick(t,ds,ev){
@@ -709,7 +723,7 @@ function lotClick(t,ds,ev){
     if(bad){toast('Dòng tô đỏ còn thiếu số, điểm hoặc người.');return true;}
     if(!good.length){toast('Chưa nhập dòng nào.');return true;}
     good.forEach((r,i)=>{const id=lform.editId||uid();const old=S.lots.get(id);
-      store.saveLot({id,date,num:r.num.padStart(2,'0'),pts:r.pts,res:r.res,hits:r.res==='win'?r.hits:1,people:lcfg().people.filter(p=>r.people.includes(p)),note,createdAt:old?old.createdAt:Date.now()+i,updatedAt:Date.now()});});
+      store.saveLot({id,date,num:r.num.padStart(2,'0'),pts:r.pts,res:r.res,hits:r.res==='win'?r.hits:1,duong:!!r.duong,people:lcfg().people.filter(p=>r.people.includes(p)),note,createdAt:old?old.createdAt:Date.now()+i,updatedAt:Date.now()});});
     closeSheet();lform=null;toast(`Đã lưu ${good.length} dòng.`);return true;
   }
   if(t.id==='lotDel'){if(t.dataset.arm){store.deleteLot(lform.editId);closeSheet();lform=null;toast('Đã xóa.');}else{t.dataset.arm=1;t.textContent='Bấm lần nữa để xác nhận xóa';}return true;}
@@ -788,7 +802,7 @@ document.addEventListener('click',async ev=>{
     if(S.selBar!==null)$('#readout').innerHTML=`<b>${dLabel(d)}</b>: ${fmt(v)}`;return;
   }
   // expense sheet
-  if(ds.quick){draft.amount=+ds.quick;$('#amt').value=draft.amount.toLocaleString('vi-VN');$('#f-amt').classList.remove('bad');updateProj();return;}
+  if(ds.quick){draft.amount=+ds.quick;$('#amt').value=String(draft.amount/1000);$('#amtHint').textContent='= '+fmt(draft.amount);$('#f-amt').classList.remove('bad');updateProj();return;}
   if(ds.cat){draft.cat=ds.cat;$$('.catgrid button').forEach(b=>b.classList.toggle('on',b.dataset.cat===ds.cat));$('#f-cat').classList.remove('bad');updateProj();return;}
   if(ds.me){draft.method=ds.me;$$('#methodSeg button').forEach(b=>b.classList.toggle('on',b.dataset.me===ds.me));return;}
   if(t.id==='goBank'){
