@@ -2,885 +2,325 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#0f3d3a">
-<title>Nam · Super App</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-title" content="Super App">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cut">
+<meta name="theme-color" content="#0f1222">
+<title>Ma Sói</title>
 <style>
-:root{
-  --bg:#f4f2ec; --card:#fff; --ink:#1b2422; --ink2:#55605d; --muted:#8a9491; --line:#e6e2d8;
-  --acc:#0f3d3a; --acc2:#1f6f68; --accSoft:#e3efec; --bar:#2c7a72; --barSoft:#cfe3df;
-  --warn:#b7791f; --warnSoft:#fbf1dc; --crit:#b42318; --critSoft:#fde8e6; --good:#2f7d32;
-  --r:16px; --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme:dark){:root{
-  --bg:#111615; --card:#1a2120; --ink:#ecf0ef; --ink2:#b3bdba; --muted:#7f8a87; --line:#2a3331;
-  --acc:#7fd1c5; --acc2:#5bb8ab; --accSoft:#1d3431; --bar:#5bb8ab; --barSoft:#24403c;
-  --warn:#e3a640; --warnSoft:#3a2e17; --crit:#f07466; --critSoft:#3d1f1c;
-}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,sans-serif;font-size:15px}
-button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
-.app{max-width:560px;margin:0 auto;min-height:100vh;padding:calc(var(--sat) + 8px) 16px calc(var(--sab) + 96px)}
-header.top{display:flex;align-items:center;justify-content:space-between;padding:8px 2px 14px}
-header.top h1{font-size:22px;margin:0;font-weight:700;letter-spacing:-.3px}
-.sync{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
-.dot.ok{background:var(--good)} .dot.local{background:var(--warn)}
-.banner{background:var(--warnSoft);color:var(--ink);border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:12px}
-.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--line)}
-.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.hero{font-size:32px;font-weight:700;letter-spacing:-.6px;margin:4px 0 2px}
-.sub{color:var(--ink2);font-size:13px}
-.row{display:flex;align-items:center;gap:10px}
-.between{justify-content:space-between}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.mini .v{font-size:19px;font-weight:700;margin-top:2px}
-.prog{height:8px;border-radius:6px;background:var(--barSoft);overflow:hidden;margin-top:10px}
-.prog>i{display:block;height:100%;border-radius:6px;background:var(--bar)}
-.prog.w>i{background:var(--warn)} .prog.c>i{background:var(--crit)}
-.alert{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;margin-top:8px;font-size:13.5px}
-.alert.w{background:var(--warnSoft)} .alert.c{background:var(--critSoft)}
-.alert b{font-weight:600}
-.list{display:flex;flex-direction:column}
-.item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);background:none;border-left:0;border-right:0;border-top:0;text-align:left;width:100%}
-.item:last-child{border-bottom:0}
-.ico{width:38px;height:38px;border-radius:12px;background:var(--accSoft);display:grid;place-items:center;font-size:19px;flex:none}
-.item .t{flex:1;min-width:0}
-.item .t .n{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.item .t .m{font-size:12.5px;color:var(--muted)}
-.amt{font-weight:600;white-space:nowrap}
-.dayhead{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);padding:12px 0 2px;font-weight:600}
-.empty{color:var(--muted);text-align:center;padding:22px 8px;font-size:14px}
-.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px;margin-bottom:12px}
-.seg button{flex:1;border:0;background:none;padding:8px 6px;border-radius:9px;font-weight:500;color:var(--ink2)}
-.seg button.on{background:var(--acc);color:#fff}
-@media (prefers-color-scheme:dark){.seg button.on{color:#0c1a18}}
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 12px;font-size:13.5px;white-space:nowrap}
-.chip.on{border-color:var(--acc);background:var(--accSoft);color:var(--acc);font-weight:600}
-.pernav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.pernav button{border:1px solid var(--line);background:var(--card);border-radius:10px;width:38px;height:36px;font-size:18px}
-.pernav .p{font-weight:600}
-.readout{font-size:13px;color:var(--ink2);min-height:18px;margin:6px 0 2px}
-svg.bars rect.b{fill:var(--bar)} svg.bars rect.b.sel{fill:var(--acc)}
-svg.bars rect.hit{fill:transparent;cursor:pointer}
-svg.bars text{fill:var(--muted);font-size:10px}
-svg.bars line{stroke:var(--line)}
-.catrow{padding:10px 0;border-bottom:1px solid var(--line)}
-.catrow:last-child{border-bottom:0}
-.catrow .h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}
-.badge{font-size:11.5px;border-radius:999px;padding:2px 8px;font-weight:600;white-space:nowrap}
-.badge.w{background:var(--warnSoft);color:var(--warn)} .badge.c{background:var(--critSoft);color:var(--crit)}
-.hbar{position:relative;height:8px;background:var(--barSoft);border-radius:6px;margin-top:7px}
-.hbar>i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--bar)}
-.hbar.w>i{background:var(--warn)} .hbar.c>i{background:var(--crit)}
-.input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:11px 12px;outline:none}
-.input:focus{border-color:var(--acc2)}
-textarea.input{resize:vertical;min-height:64px}
-.field{margin-bottom:14px}
-.field>label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink2)}
-.req{color:var(--crit)}
-.err{color:var(--crit);font-size:12.5px;margin-top:5px;display:none}
-.field.bad .err{display:block} .field.bad .input{border-color:var(--crit)}
-.bigamt{font-size:28px;font-weight:700;text-align:right;letter-spacing:-.4px}
-.catgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.catgrid button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12.5px}
-.catgrid button span{font-size:20px}
-.catgrid button.on{border-color:var(--acc);background:var(--accSoft);color:var(--acc);font-weight:600}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:14px;font-weight:600;font-size:15.5px;text-decoration:none}
-.btn.pri{background:var(--acc);color:#fff}
-@media (prefers-color-scheme:dark){.btn.pri{color:#0c1a18}}
-.btn.sec{background:var(--accSoft);color:var(--acc)}
-.btn.ghost{background:none;color:var(--ink2);border:1px solid var(--line)}
-.btn.danger{background:none;color:var(--crit);border:1px solid var(--crit)}
-.btn.sm{padding:9px 12px;font-size:14px;width:auto;border-radius:11px}
-.stack{display:flex;flex-direction:column;gap:10px}
-.hint{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.45}
-.projection{font-size:13px;border-radius:10px;padding:8px 10px;margin-top:8px;display:none}
-.projection.show{display:block}
-.projection.ok{background:var(--accSoft)} .projection.w{background:var(--warnSoft)} .projection.c{background:var(--critSoft)}
-nav.tab{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:6px 8px calc(var(--sab) + 6px);z-index:20}
-nav.tab .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:end}
-nav.tab button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);padding:4px 0}
-nav.tab button .i{font-size:20px;line-height:1.2}
-nav.tab button.on{color:var(--acc);font-weight:600}
-nav.tab .fab{transform:translateY(-14px)}
-nav.tab .fab .i{width:58px;height:58px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-size:24px;box-shadow:0 6px 16px rgba(15,61,58,.35)}
-@media (prefers-color-scheme:dark){nav.tab .fab .i{color:#0c1a18}}
-nav.tab .fab{color:var(--acc);font-weight:600}
-.sheetbg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:30;display:none}
-.sheetbg.open{display:block}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;background:var(--bg);border-radius:20px 20px 0 0;max-height:92vh;overflow:auto;transform:translateY(105%);transition:transform .22s ease;padding:10px 16px calc(var(--sab) + 18px)}
-.sheet.open{transform:none}
-.sheet .in{max-width:560px;margin:0 auto}
-.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 10px}
-.sheet h2{font-size:18px;margin:0 0 14px;display:flex;justify-content:space-between;align-items:center}
-.x{border:0;background:var(--card);border-radius:50%;width:32px;height:32px;font-size:16px}
-.toast{position:fixed;left:50%;bottom:calc(var(--sab) + 92px);transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.2s;z-index:50;max-width:90vw;text-align:center;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%)}
-.stars{display:flex;gap:4px}
-.stars button{border:0;background:none;font-size:24px;padding:0 2px;color:var(--line)}
-.stars button.on{color:#e0a100}
-.fcard{padding:12px 0;border-bottom:1px solid var(--line)}
-.fcard:last-child{border-bottom:0}
-.fcard .n{font-weight:600}
-.fcard .m{font-size:13px;color:var(--ink2);margin-top:2px}
-.fcard .note{font-size:13px;color:var(--muted);margin-top:4px}
-.fcard .acts{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-.fcard a{color:var(--acc2);font-size:13px}
-.st{color:#e0a100;font-size:13px;letter-spacing:1px}
-.pick{text-align:center;padding:10px 0 4px}
-.pick .big{font-size:24px;font-weight:700;margin:6px 0}
-.setcat{display:grid;grid-template-columns:48px 1fr 118px 32px;gap:8px;align-items:center;margin-bottom:8px}
-.setcat .input{padding:9px 8px}
-.setcat .ic{text-align:center}
-.del{border:0;background:none;color:var(--muted);font-size:18px}
-.view{display:none}.view.on{display:block}
-.mt{margin-top:12px}
-.search{margin-bottom:10px}
-.pos{color:var(--good)} .neg{color:var(--crit)}
-.hero.pos{color:var(--good)} .hero.neg{color:var(--crit)}
-.ltab{width:100%;border-collapse:collapse;font-size:14px}
-.ltab th{font-size:12px;color:var(--muted);font-weight:600;text-align:left;padding:6px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
-.ltab td{padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
-.ltab tr:last-child td{border-bottom:0}
-.lnum{font-weight:700;font-size:16px;color:var(--acc)}
-.lsign{font-weight:700;margin-left:4px}
-.lgrid{display:grid;grid-template-columns:54px 54px 66px 1fr 26px;gap:6px;align-items:center}
-.lhead{font-size:12px;color:var(--muted);font-weight:600;padding:0 2px 4px}
-.lrow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;margin-bottom:6px}
-.lrow.bad{border-color:var(--crit)}
-.lin{padding:9px 6px;text-align:center;font-weight:600;font-size:16px}
-.lsel{appearance:none;-webkit-appearance:none;text-align:center;text-align-last:center;font-size:17px}
-.lsel.pos{color:var(--good)} .lsel.neg{color:var(--crit)}
-.ldd{position:relative;min-width:0}
-.lddbtn{display:flex;justify-content:space-between;align-items:center;gap:4px;padding:9px 8px;font-size:13.5px;text-align:left;white-space:nowrap;overflow:hidden}
-.lddbtn span{color:var(--muted);flex:none}
-.ddpanel{display:none;position:absolute;right:0;top:calc(100% + 4px);z-index:5;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:6px;min-width:170px}
-.ddpanel.open{display:block}
-.ddopt{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:8px;font-size:15px}
-.ddopt input{width:18px;height:18px;accent-color:var(--acc)}
-.ddall{width:100%;border:0;background:var(--accSoft);color:var(--acc);border-radius:8px;padding:8px;font-weight:600;font-size:13px;margin-bottom:4px}
-.lrowsum{font-size:12.5px;color:var(--ink2);margin-top:6px;min-height:16px;padding-left:2px}
-.lchips{display:flex;flex-wrap:wrap;gap:6px}
-.lchip{background:var(--bg);border-radius:999px;padding:4px 10px;font-size:13px}
-.swrap{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
-.swrap:last-child{border-bottom:0}
-.swrap .item{border-bottom:0}
-.swdel{position:absolute;right:0;top:0;bottom:0;width:88px;border:0;background:var(--crit);color:#fff;font-weight:600;font-size:14px}
-.swi{position:relative;background:var(--card);transition:transform .2s ease;touch-action:pan-y;z-index:1}
-.kwrap{position:relative}
-.kwrap .bigamt{padding-right:96px}
-.ksuf{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:600;color:var(--muted);pointer-events:none}
-.lrowfoot{display:flex;align-items:center;gap:10px;margin-top:6px}
-.lrowfoot .lrowsum{margin-top:0}
-.lduong{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 7px;flex:none}
-.lduong.on{border-color:var(--acc);background:var(--accSoft);color:var(--acc)}
-.lduong input{width:16px;height:16px;accent-color:var(--acc);margin:0}
-.dbox{display:flex;justify-content:space-between;align-items:center;background:var(--accSoft);border-radius:12px;padding:10px 12px;font-weight:600}
-.dtag{font-size:11px;font-weight:700;background:var(--accSoft);color:var(--acc);border-radius:6px;padding:1px 6px;vertical-align:middle}
+body{margin:0;background:#0f1222;color:#e8e9f3;font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+#app{max-width:520px;margin:0 auto;padding:14px 14px 40px}
+h1{font-size:22px;margin:6px 0 2px}h2{font-size:15px;margin:18px 0 8px;color:#a9acc9;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.muted{color:#8a8db0;font-size:13px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+a{color:#9fb3ff;text-decoration:none}
+.card{background:#1a1e36;border:1px solid #262b4a;border-radius:14px;padding:14px;margin:10px 0}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333a62;background:#11152b;color:#fff;font-size:16px}
+button{font:inherit;border:0;border-radius:10px;padding:12px 14px;background:#2b3160;color:#fff;font-weight:600;cursor:pointer}
+button:disabled{opacity:.4}
+.pri{background:#5b5bf0}.red{background:#b3324a}.ghost{background:transparent;border:1px solid #333a62;color:#c9cbe6}
+.full{width:100%;margin-top:8px}.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.row>.fx{flex:0 0 auto}
+.code{font-size:44px;font-weight:800;letter-spacing:.18em;text-align:center;margin:4px 0}
+.list>div{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #262b4a}.list>div:last-child{border:0}
+.list .nm{flex:1;min-width:0}.dead .nm{opacity:.45;text-decoration:line-through}
+.tag{font-size:11px;padding:2px 7px;border-radius:20px;background:#262b4a;color:#a9acc9;white-space:nowrap}
+.tag.soi{background:#4a1d2a;color:#ff9db0}.tag.dan{background:#1d3a2f;color:#8fe0b8}
+.step{display:flex;align-items:center;gap:8px}.step b{width:26px;text-align:center;font-size:17px}
+.step button{width:38px;height:38px;padding:0;font-size:20px}
+.total{font-weight:700;padding:10px;border-radius:10px;text-align:center;margin-top:8px}
+.ok{background:#1d3a2f;color:#8fe0b8}.bad{background:#4a1d2a;color:#ff9db0}
+.bigcard{min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-radius:20px;padding:24px;cursor:pointer;user-select:none;background:linear-gradient(160deg,#272d5c,#151935);border:1px solid #3a4180}
+.bigcard .ic{font-size:84px;line-height:1.1}.bigcard .rn{font-size:28px;font-weight:800;margin:8px 0}
+.bigcard.back .ic{font-size:64px;opacity:.8}
+.banner{background:#4a1d2a;color:#ffc2cf;padding:10px;border-radius:10px;text-align:center;font-weight:700;margin:10px 0}
+.hint{background:#3b3315;color:#ffe08a;padding:8px 10px;border-radius:10px;font-size:13px;margin-top:8px}
+.order{display:flex;flex-wrap:wrap;gap:6px}.order span{background:#262b4a;padding:5px 9px;border-radius:20px;font-size:13px}
+.log>div{padding:7px 0;border-bottom:1px dashed #262b4a;font-size:14px;display:flex;gap:8px}.log .ph{color:#8a8db0;white-space:nowrap;font-size:12px;padding-top:2px}
+.modal{position:fixed;inset:0;background:#0009;display:flex;align-items:flex-end;justify-content:center;z-index:9}
+.modal>div{background:#1a1e36;width:100%;max-width:520px;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+.msg{background:#3b3315;color:#ffe08a;padding:10px;border-radius:10px;margin:8px 0}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:#3ccf8e}.dot.off{background:#e0566f}
 </style>
 </head>
 <body>
-<div class="app">
-  <header class="top">
-    <h1 id="title">Tổng quan</h1>
-    <div class="row" style="gap:4px"><span class="sync"><span class="dot" id="syncDot"></span><span id="syncTxt"></span></span><button class="x" id="gear" aria-label="Cài đặt" style="width:38px;height:38px;font-size:18px">⚙️</button></div>
-  </header>
-  <div id="banner"></div>
+<div id="app"><p class="muted">Đang tải… (module Ma sói cần có mạng)</p></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set, get, update, onValue, push, runTransaction, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  <!-- HOME -->
-  <section class="view on" id="v-home"></section>
-  <!-- SPEND -->
-  <section class="view" id="v-spend">
-    <div class="seg" id="perMode">
-      <button data-m="day">Ngày</button><button data-m="week">Tuần</button><button data-m="month" class="on">Tháng</button>
-    </div>
-    <div class="pernav"><button id="perPrev" aria-label="Kỳ trước">‹</button><div class="p" id="perLabel"></div><button id="perNext" aria-label="Kỳ sau">›</button></div>
-    <div class="chips" id="catFilter"></div>
-    <div id="spendBody"></div>
-  </section>
-  <!-- FOOD -->
-  <section class="view" id="v-food">
-    <div class="seg" id="foodKind"><button data-k="food" class="on">🍜 Ăn uống</button><button data-k="cafe">☕ Cafe</button></div>
-    <div class="seg" id="foodStatus"><button data-s="want" class="on">Muốn thử</button><button data-s="tried">Đã thử</button></div>
-    <div class="row" style="gap:8px;margin-bottom:12px">
-      <button class="btn sec" id="btnRandom" style="flex:1">🎲 Hôm nay ăn gì?</button>
-      <button class="btn pri" id="btnAddFood" style="flex:1">＋ Thêm</button>
-    </div>
-    <input class="input search" id="foodSearch" placeholder="Tìm tên quán, món, khu vực…">
-    <div class="card" id="foodList"></div>
-  </section>
-  <!-- SETTINGS -->
-  <section class="view" id="v-lotto"></section>
-  <section class="view" id="v-settings"></section>
-</div>
+const db = getDatabase(initializeApp({
+  apiKey: "AIzaSyDBxo9B1U8lkEGROBcdxExHA7Sx_wF-kHM",
+  authDomain: "ma-soi-c04ba.firebaseapp.com",
+  databaseURL: "https://ma-soi-c04ba-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "ma-soi-c04ba",
+  storageBucket: "ma-soi-c04ba.firebasestorage.app",
+  messagingSenderId: "616752597822",
+  appId: "1:616752597822:web:8ca58d219f103b4d213a6f"
+}));
 
-<nav class="tab"><div class="in">
-  <button data-v="home" class="on"><span class="i">🏠</span>Tổng quan</button>
-  <button data-v="spend"><span class="i">📊</span>Chi tiêu</button>
-  <button class="fab" id="fab"><span class="i"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 14v.01M14 21h3M21 18v3"/></svg></span>Quét QR</button>
-  <button data-v="food"><span class="i">🍜</span>Ăn uống</button>
-  <button data-v="lotto"><span class="i">🔢</span>Số học</button>
-</div></nav>
-
-<div class="sheetbg" id="sheetbg"></div>
-<div class="sheet" id="sheet"><div class="in"><div class="grab"></div><div id="sheetBody"></div></div></div>
-<div class="toast" id="toast"></div>
-
-<script>
-/* ===================== Helpers ===================== */
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=n=>(Math.round(n||0)).toLocaleString('vi-VN')+'đ';
-const fmtShort=n=>{n=n||0;if(n>=1e6)return (n/1e6).toFixed(n>=1e7?0:1).replace('.0','').replace('.',',')+'tr';if(n>=1e3)return Math.round(n/1e3)+'k';return String(Math.round(n));};
-const parseK=s=>{s=String(s||'').trim();if(!s)return 0;const n=parseFloat(s.replace(/\./g,'').replace(',','.'));return isNaN(n)?0:Math.round(n*1000);};
-const parseAmt=s=>parseInt(String(s||'').replace(/\D/g,''),10)||0;
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-const DOW=['CN','T2','T3','T4','T5','T6','T7'];
-const pad=n=>String(n).padStart(2,'0');
-const dKey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
-const dLabel=d=>DOW[d.getDay()]+', '+pad(d.getDate())+'/'+pad(d.getMonth()+1);
-const startOfDay=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
-const startOfWeek=d=>{const x=startOfDay(d);const k=(x.getDay()+6)%7;x.setDate(x.getDate()-k);return x;};
-const startOfMonth=d=>new Date(d.getFullYear(),d.getMonth(),1);
-const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
-const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-function toast(m,ms=2600){const t=$('#toast');t.textContent=m;t.style.pointerEvents='none';t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),ms);}
-
-/* ===================== State ===================== */
-const DEFAULT_CATS=[
-  {id:'an',icon:'🍜',name:'Ăn uống',budget:0},{id:'cafe',icon:'☕',name:'Cafe',budget:0},
-  {id:'dilai',icon:'🛵',name:'Đi lại',budget:0},{id:'muasam',icon:'🛍️',name:'Mua sắm',budget:0},
-  {id:'hoadon',icon:'🧾',name:'Hóa đơn',budget:0},{id:'giaitri',icon:'🎬',name:'Giải trí',budget:0},
-  {id:'suckhoe',icon:'💊',name:'Sức khỏe',budget:0},{id:'giadinh',icon:'🏡',name:'Gia đình',budget:0},
-  {id:'khac',icon:'📦',name:'Khác',budget:0}];
-const DEFAULT_SETTINGS={cats:DEFAULT_CATS,warnPct:80,bankLink:'https://dl.vietqr.io/pay?app=tcb',bankName:'Techcombank'};
-const S={settings:structuredClone(DEFAULT_SETTINGS),settingsExists:false,
-  exp:new Map(),food:new Map(),lots:new Map(),view:'home',per:'month',anchor:new Date(),catF:null,
-  foodKind:'food',foodStatus:'want',selBar:null};
-
-/* ===================== Storage (máy) + đồng bộ Google Sheets ===================== */
-function persist(){LS.set('lots',[...S.lots.values()]);LS.set('exp',[...S.exp.values()]);LS.set('food',[...S.food.values()]);LS.set('settings',S.settings);}
-const SYNC={get cfg(){return LS.get('sync_cfg',{url:'',key:''});},set cfg(v){LS.set('sync_cfg',v);},
-  get box(){return LS.get('outbox',[]);},set box(v){LS.set('outbox',v);},busy:false};
-function enqueue(op){ // gộp thao tác trùng id, chỉ giữ thao tác mới nhất
-  const box=SYNC.box.filter(o=>!(o.t===op.t&&o.id===op.id));box.push(op);SYNC.box=box;syncSoon();
-}
-const store={
-  saveExpense(e){S.exp.set(e.id,e);persist();enqueue({t:'exp',op:'up',id:e.id,d:e});renderAll();},
-  deleteExpense(id){S.exp.delete(id);persist();enqueue({t:'exp',op:'del',id});renderAll();},
-  saveFood(f){S.food.set(f.id,f);persist();enqueue({t:'food',op:'up',id:f.id,d:f});renderAll();},
-  deleteFood(id){S.food.delete(id);persist();enqueue({t:'food',op:'del',id});renderAll();},
-  saveLot(l){S.lots.set(l.id,l);persist();enqueue({t:'lot',op:'up',id:l.id,d:l});renderAll();},
-  deleteLot(id){S.lots.delete(id);persist();enqueue({t:'lot',op:'del',id});renderAll();},
-  saveSettings(){persist();enqueue({t:'settings',op:'up',id:'settings',d:S.settings});renderAll();}
+const ROLES = {
+  soi:     {name:'Sói', icon:'🐺', team:'soi', order:3, desc:'Mỗi đêm cùng bầy Sói chọn 1 người để cắn. Thắng khi số Sói ≥ số người còn lại.'},
+  dan:     {name:'Dân làng', icon:'🧑‍🌾', team:'dan', desc:'Không có chức năng đêm. Ban ngày thảo luận, bỏ phiếu treo cổ Sói.'},
+  tientri: {name:'Tiên tri', icon:'🔮', team:'dan', order:4, desc:'Mỗi đêm soi 1 người, quản trò cho biết người đó có phải Sói không.'},
+  baove:   {name:'Bảo vệ', icon:'🛡️', team:'dan', order:2, desc:'Mỗi đêm bảo vệ 1 người khỏi bị Sói cắn. Không bảo vệ 1 người 2 đêm liên tiếp.'},
+  phuthuy: {name:'Phù thủy', icon:'🧪', team:'dan', order:5, desc:'Có 1 bình cứu và 1 bình độc, mỗi bình chỉ dùng 1 lần trong cả ván.'},
+  thosan:  {name:'Thợ săn', icon:'🏹', team:'dan', desc:'Khi chết được bắn kéo theo 1 người.'},
+  cupid:   {name:'Cupid', icon:'💘', team:'dan', order:1, firstNight:true, desc:'Đêm đầu tiên ghép đôi 2 người. Một người chết thì người kia chết theo.'}
 };
-async function callSheet(payload){
-  const {url,key}=SYNC.cfg;if(!url)throw new Error('Chưa cấu hình');
-  const r=await fetch(url,{method:'POST',body:JSON.stringify({...payload,key}),redirect:'follow'});
-  const j=await r.json();if(!j.ok)throw new Error(j.error||'Lỗi');return j;
-}
-let syncT=null;function syncSoon(ms=1500){clearTimeout(syncT);syncT=setTimeout(syncNow,ms);}
-async function syncNow(manual){
-  if(SYNC.busy)return;const box=SYNC.box;
-  if(!SYNC.cfg.url){updSync();return;}
-  if(!box.length){updSync();if(manual)toast('Đã đồng bộ hết.');return;}
-  if(!navigator.onLine){updSync();return;}
-  SYNC.busy=true;updSync();
-  try{
-    await callSheet({action:'apply',ops:box});
-    const sent=new Set(box.map(o=>o.t+o.id+JSON.stringify(o.d||'')));
-    SYNC.box=SYNC.box.filter(o=>!sent.has(o.t+o.id+JSON.stringify(o.d||'')));
-    LS.set('last_sync',Date.now());if(manual)toast('Đã đồng bộ lên Google Sheets.');
-  }catch(err){if(manual)toast('Đồng bộ lỗi: '+err.message,4000);}
-  SYNC.busy=false;updSync();
-}
-function updSync(){
-  const n=SYNC.box.length;
-  if(!SYNC.cfg.url)setSync('cloud','Lưu trên máy');
-  else if(SYNC.busy)setSync('','Đang đồng bộ…');
-  else if(!navigator.onLine)setSync('local','Offline · '+n+' chờ');
-  else if(n)setSync('local',n+' thay đổi chờ đồng bộ');
-  else setSync('cloud','Đã đồng bộ');
-  if(S.view==='settings'){const el=$('#syncInfo');if(el)el.textContent=syncInfoText();}
-}
-function syncInfoText(){const l=LS.get('last_sync',0);return (SYNC.box.length?SYNC.box.length+' thay đổi chờ đồng bộ · ':'')+(l?'Lần cuối: '+new Date(l).toLocaleString('vi-VN'):'Chưa đồng bộ lần nào');}
-async function pullFromSheet(){
-  const j=await callSheet({action:'all'});
-  S.exp=new Map((j.exp||[]).map(e=>[e.id,e]));S.food=new Map((j.food||[]).map(f=>[f.id,f]));
-  if(j.settings)S.settings=Object.assign(structuredClone(DEFAULT_SETTINGS),j.settings);
-  SYNC.box=[];persist();LS.set('last_sync',Date.now());renderAll();
-  return j;
-}
-function setSync(kind,txt){$('#syncDot').className='dot '+(kind==='cloud'?'ok':kind==='local'?'local':'');$('#syncTxt').textContent=txt;}
-function boot(){
-  S.settings=Object.assign(structuredClone(DEFAULT_SETTINGS),LS.get('settings',{}));
-  LS.get('exp',[]).forEach(e=>S.exp.set(e.id,e));LS.get('food',[]).forEach(f=>S.food.set(f.id,f));
-  LS.get('lots',[]).forEach(l=>S.lots.set(l.id,l));
-  if(!LS.get('lot_reset_1',false)){S.lots.clear();LS.set('lot_reset_1',true);persist();}
-  updSync();renderAll();syncSoon(800);
-  window.addEventListener('online',()=>syncSoon(300));window.addEventListener('offline',updSync);
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncSoon(300);});
-  if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
-function downloadFile(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);}
+const CAUSES = ['Sói cắn','Bị treo cổ','Bình độc','Thợ săn bắn','Chết theo cặp đôi','Khác'];
 
-/* ===================== Derived ===================== */
-const cats=()=>S.settings.cats||[];
-const catById=id=>cats().find(c=>c.id===id);
-const catOf=e=>catById(e.cat)||{id:e.cat,icon:'📦',name:e.catName||'Khác',budget:0};
-const expList=()=>[...S.exp.values()].sort((a,b)=>b.ts-a.ts);
-function inRange(e,a,b){return e.ts>=a.getTime()&&e.ts<b.getTime();}
-function monthSpendByCat(ref=new Date()){
-  const a=startOfMonth(ref),b=new Date(a.getFullYear(),a.getMonth()+1,1);const m={};
-  expList().forEach(e=>{if(inRange(e,a,b))m[e.cat]=(m[e.cat]||0)+e.amount;});return m;
+const LS = {
+  get(k){ try{ return localStorage.getItem(k) }catch(e){ return null } },
+  set(k,v){ try{ v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v) }catch(e){} }
+};
+let pid = LS.get('ms_pid');
+if(!pid){ pid = Math.random().toString(36).slice(2,10) + Date.now().toString(36); LS.set('ms_pid', pid); }
+
+const S = { name: LS.get('ms_name')||'', code:'', room:null, busy:false, msg:'', reveal:false, modal:null, online:true };
+let unsub = null;
+const appEl = document.getElementById('app');
+const rref = (p='') => ref(db, 'rooms/' + S.code + (p ? '/' + p : ''));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const val = id => (document.getElementById(id)?.value || '').trim();
+const roles = r => ({...ROLES, ...(r?.custom || {})});
+const phaseLabel = p => p ? (p.t === 'dem' ? '🌙 Đêm ' : '☀️ Ngày ') + p.n : '';
+const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+
+/* ---------- Kết nối phòng ---------- */
+function subscribe(code){
+  if(unsub) unsub();
+  S.code = code; LS.set('ms_code', code); S.room = undefined; render();
+  unsub = onValue(ref(db, 'rooms/' + code), snap => {
+    const r = snap.val();
+    if(!r) return leaveLocal('Phòng đã đóng.');
+    if(r.host !== pid && !(r.players && r.players[pid])) return leaveLocal('Bạn không còn trong phòng.');
+    S.room = r; render();
+  }, err => { S.msg = 'Lỗi kết nối: ' + err.message; render(); });
 }
-function budgetStatus(spent,budget){
-  if(!budget)return null;const p=spent/budget*100;
-  if(p>=100)return {k:'c',p,txt:'Vượt '+Math.round(p-100)+'%'};
-  if(p>=(S.settings.warnPct||80))return {k:'w',p,txt:Math.round(p)+'%'};
-  return {k:'',p,txt:Math.round(p)+'%'};
+function leaveLocal(msg){
+  if(unsub){ unsub(); unsub = null; }
+  S.code = ''; S.room = null; S.reveal = false; S.modal = null; S.msg = msg || '';
+  LS.set('ms_code', null); render();
+}
+async function run(fn){
+  if(S.busy) return;
+  S.busy = true; S.msg = ''; render();
+  try{ await fn(); }catch(e){ S.msg = 'Lỗi: ' + e.message; }
+  S.busy = false; render();
 }
 
-/* ===================== Render: Home ===================== */
-function renderHome(){
-  const now=new Date(),ms=monthSpendByCat(now);
-  const total=Object.values(ms).reduce((a,b)=>a+b,0);
-  const totalBudget=cats().reduce((a,c)=>a+(+c.budget||0),0);
-  const t0=startOfDay(now),w0=startOfWeek(now);
-  let today=0,week=0;expList().forEach(e=>{if(e.ts>=t0.getTime())today+=e.amount;if(e.ts>=w0.getTime())week+=e.amount;});
-  const st=budgetStatus(total,totalBudget);
-  const alerts=cats().map(c=>({c,s:budgetStatus(ms[c.id]||0,+c.budget||0),sp:ms[c.id]||0})).filter(x=>x.s&&x.s.k).sort((a,b)=>b.s.p-a.s.p);
-  const recent=expList().slice(0,6);
-  let h=`<div class="card"><div class="label">Chi tháng ${now.getMonth()+1}</div><div class="hero">${fmt(total)}</div>`;
-  if(totalBudget){h+=`<div class="sub">Ngân sách ${fmt(totalBudget)} · còn ${fmt(Math.max(totalBudget-total,0))}</div><div class="prog ${st.k}"><i style="width:${Math.min(st.p,100)}%"></i></div>`;}
-  else h+=`<div class="sub">Chưa đặt ngân sách · <a href="#" data-go="settings" style="color:var(--acc2)">đặt ngay</a></div>`;
-  alerts.forEach(a=>{h+=`<div class="alert ${a.s.k}"><span>${a.s.k==='c'?'⛔':'⚠️'}</span><div><b>${esc(a.c.icon)} ${esc(a.c.name)}</b>: ${fmt(a.sp)} / ${fmt(a.c.budget)} — ${a.s.k==='c'?'đã vượt ngân sách':'sắp chạm ngân sách'} (${Math.round(a.s.p)}%)</div></div>`;});
-  h+=`</div><div class="grid2"><div class="card mini"><div class="label">Hôm nay</div><div class="v">${fmt(today)}</div></div><div class="card mini"><div class="label">Tuần này</div><div class="v">${fmt(week)}</div></div></div>`;
-  h+=`<div class="card"><div class="row between"><div class="label">Gần đây</div><a href="#" data-go="spend" style="font-size:13px;color:var(--acc2)">Xem tất cả</a></div><div class="list">`;
-  h+=recent.length?recent.map(itemHTML).join(''):`<div class="empty">Chưa có khoản chi nào.<br>Bấm <b>Quét QR</b> ở dưới để bắt đầu.</div>`;
-  h+=`</div></div>`;
-  $('#v-home').innerHTML=h;
-}
-function itemHTML(e){
-  const c=catOf(e),d=new Date(e.ts);
-  return `<button class="item" data-exp="${esc(e.id)}"><div class="ico">${esc(c.icon)}</div><div class="t"><div class="n">${esc(e.note||c.name)}</div><div class="m">${esc(c.name)} · ${pad(d.getHours())}:${pad(d.getMinutes())} ${d.toDateString()!==new Date().toDateString()?'· '+pad(d.getDate())+'/'+pad(d.getMonth()+1):''}${e.method==='tm'?' · Tiền mặt':''}</div></div><div class="amt">-${fmt(e.amount)}</div></button>`;
-}
-
-/* ===================== Render: Spend ===================== */
-function periodRange(){
-  const a=S.anchor;
-  if(S.per==='day'){const s=startOfDay(a);return [s,addDays(s,1)];}
-  if(S.per==='week'){const s=startOfWeek(a);return [s,addDays(s,7)];}
-  const s=startOfMonth(a);return [s,new Date(s.getFullYear(),s.getMonth()+1,1)];
-}
-function periodLabel(){
-  const [a,b]=periodRange();
-  if(S.per==='day')return dLabel(a)+'/'+a.getFullYear();
-  if(S.per==='week'){const e=addDays(b,-1);return pad(a.getDate())+'/'+pad(a.getMonth()+1)+' – '+pad(e.getDate())+'/'+pad(e.getMonth()+1);}
-  return 'Tháng '+(a.getMonth()+1)+'/'+a.getFullYear();
-}
-function shiftPeriod(n){
-  const a=new Date(S.anchor);
-  if(S.per==='day')a.setDate(a.getDate()+n);else if(S.per==='week')a.setDate(a.getDate()+7*n);else a.setMonth(a.getMonth()+n,1);
-  S.anchor=a;S.selBar=null;renderSpend();
-}
-function renderSpend(){
-  $$('#perMode button').forEach(b=>b.classList.toggle('on',b.dataset.m===S.per));
-  $('#perLabel').textContent=periodLabel();
-  $('#catFilter').innerHTML=`<button class="chip ${!S.catF?'on':''}" data-cf="">Tất cả</button>`+cats().map(c=>`<button class="chip ${S.catF===c.id?'on':''}" data-cf="${esc(c.id)}">${esc(c.icon)} ${esc(c.name)}</button>`).join('');
-  const [a,b]=periodRange();
-  const all=expList().filter(e=>inRange(e,a,b));
-  const rows=all.filter(e=>!S.catF||e.cat===S.catF);
-  const total=rows.reduce((s,e)=>s+e.amount,0);
-  let h=`<div class="card"><div class="label">${S.catF?esc(catOf({cat:S.catF}).name):'Tổng chi'} · ${rows.length} khoản</div><div class="hero">${fmt(total)}</div>`;
-  if(S.per!=='day'){
-    const days=Math.round((b-a)/864e5),vals=[];
-    for(let i=0;i<days;i++){const d0=addDays(a,i),d1=addDays(a,i+1);vals.push({d:d0,v:rows.filter(e=>inRange(e,d0,d1)).reduce((s,e)=>s+e.amount,0)});}
-    const avg=total/Math.max(1,Math.min(days,Math.ceil((Math.min(Date.now(),b.getTime())-a.getTime())/864e5)));
-    h+=`<div class="sub">Trung bình ${fmt(avg)}/ngày</div>`+barsSVG(vals)+`<div class="readout" id="readout">Chạm vào cột để xem chi tiết ngày</div>`;
-  }
-  h+=`</div>`;
-  if(!S.catF){
-    const by={};all.forEach(e=>{by[e.cat]=(by[e.cat]||0)+e.amount;});
-    const arr=Object.entries(by).sort((x,y)=>y[1]-x[1]);
-    const max=arr.length?arr[0][1]:0;
-    const isMonth=S.per==='month';
-    h+=`<div class="card"><div class="label">Theo hạng mục${isMonth?' · so với ngân sách':''}</div>`;
-    h+=arr.length?arr.map(([cid,v])=>{
-      const c=catOf({cat:cid});const s=isMonth?budgetStatus(v,+c.budget||0):null;
-      const w=s?Math.min(s.p,100):(v/max*100);
-      return `<div class="catrow"><div class="h"><span>${esc(c.icon)} ${esc(c.name)}</span><span class="row" style="gap:6px">${s&&s.k?`<span class="badge ${s.k}">${s.k==='c'?'⛔ ':'⚠️ '}${s.txt}</span>`:''}<b>${fmt(v)}</b></span></div>${s?`<div class="sub" style="font-size:12px;margin-top:2px">${Math.round(s.p)}% ngân sách ${fmt(c.budget)}</div>`:`<div class="sub" style="font-size:12px;margin-top:2px">${Math.round(v/total*100)}% tổng chi</div>`}<div class="hbar ${s?s.k:''}"><i style="width:${w}%"></i></div></div>`;
-    }).join(''):`<div class="empty">Không có khoản chi trong kỳ này.</div>`;
-    h+=`</div>`;
-  }
-  h+=`<input class="input search" id="spendSearch" placeholder="Tìm theo nội dung…" value="${esc(S.q||'')}">`;
-  const q=(S.q||'').toLowerCase().trim();
-  const shown=q?rows.filter(e=>(e.note||'').toLowerCase().includes(q)):rows;
-  h+=`<div class="card" style="padding-top:4px">`;
-  if(!shown.length)h+=`<div class="empty">Không có khoản chi nào.</div>`;
-  let cur='';
-  shown.forEach(e=>{const d=new Date(e.ts),k=dKey(d);if(k!==cur){cur=k;const dt=shown.filter(x=>dKey(new Date(x.ts))===k).reduce((s,x)=>s+x.amount,0);h+=`<div class="dayhead"><span>${dLabel(d)}</span><span>${fmt(dt)}</span></div>`;}h+=itemHTML(e);});
-  h+=`</div>`;
-  $('#spendBody').innerHTML=h;
-  const si=$('#spendSearch');si.oninput=()=>{S.q=si.value;const pos=si.selectionStart;renderSpend();const n=$('#spendSearch');n.focus();n.setSelectionRange(pos,pos);};
-}
-function barsSVG(vals){
-  const W=340,H=130,pt=8,pb=18,n=vals.length,gap=n>10?2:6,bw=(W-gap*(n-1))/n;
-  const max=Math.max(...vals.map(v=>v.v),1);
-  let s=`<svg class="bars" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Chi tiêu theo ngày"><line x1="0" x2="${W}" y1="${H-pb}" y2="${H-pb}"/>`;
-  vals.forEach((o,i)=>{
-    const x=i*(bw+gap),bh=o.v?Math.max(3,(H-pt-pb)*o.v/max):0,y=H-pb-bh,r=Math.min(4,bw/2,bh);
-    if(bh)s+=`<path class="b" d="M${x},${H-pb} V${y+r} Q${x},${y} ${x+r},${y} H${x+bw-r} Q${x+bw},${y} ${x+bw},${y+r} V${H-pb} Z" fill="var(--bar)" opacity="${S.selBar===null||S.selBar===i?1:.45}"/>`;
-    const showLbl=n<=7||i===0||(i+1)%5===0;
-    if(showLbl)s+=`<text x="${x+bw/2}" y="${H-4}" text-anchor="middle">${n<=7?DOW[o.d.getDay()]:o.d.getDate()}</text>`;
-    s+=`<rect class="hit" data-bar="${i}" data-v="${o.v}" data-d="${o.d.getTime()}" x="${x-gap/2}" y="0" width="${bw+gap}" height="${H}"/>`;
-  });
-  return s+`</svg>`;
-}
-
-/* ===================== Render: Food ===================== */
-function renderFood(){
-  $$('#foodKind button').forEach(b=>b.classList.toggle('on',b.dataset.k===S.foodKind));
-  $$('#foodStatus button').forEach(b=>b.classList.toggle('on',b.dataset.s===S.foodStatus));
-  $('#btnRandom').textContent=S.foodKind==='cafe'?'🎲 Hôm nay cafe đâu?':'🎲 Hôm nay ăn gì?';
-  const q=($('#foodSearch').value||'').toLowerCase().trim();
-  let arr=[...S.food.values()].filter(f=>f.kind===S.foodKind&&f.status===S.foodStatus);
-  if(q)arr=arr.filter(f=>[f.name,f.dish,f.area,f.note].join(' ').toLowerCase().includes(q));
-  arr.sort((a,b)=>S.foodStatus==='tried'?((b.rating||0)-(a.rating||0)||(b.updatedAt||0)-(a.updatedAt||0)):(b.createdAt||0)-(a.createdAt||0));
-  $('#foodList').innerHTML=arr.length?arr.map(f=>`<div class="fcard">
-    <div class="row between"><div class="n">${esc(f.name)}</div>${f.rating?`<span class="st" aria-label="${f.rating} sao">${'★'.repeat(f.rating)}</span>`:''}</div>
-    <div class="m">${[f.dish&&('🍽 '+esc(f.dish)),f.area&&('📍 '+esc(f.area)),f.price&&('💰 '+esc(f.price))].filter(Boolean).join(' · ')}</div>
-    ${f.note?`<div class="note">${esc(f.note)}</div>`:''}
-    <div class="acts">${f.status==='want'?`<button class="btn sec sm" data-tried="${esc(f.id)}">✓ Đã đi</button>`:''}<button class="btn ghost sm" data-food="${esc(f.id)}">Sửa</button>${f.link?`<a class="btn ghost sm" href="${esc(f.link)}" target="_blank" rel="noopener">Bản đồ ↗</a>`:''}</div>
-  </div>`).join(''):`<div class="empty">${S.foodStatus==='want'?'Chưa có quán/món nào trong danh sách muốn thử.':'Chưa có quán/món đã thử.'}<br>Bấm <b>＋ Thêm</b> để ghi lại.</div>`;
-}
-
-/* ===================== Render: Settings ===================== */
-function renderSettings(){
-  const st=S.settings;
-  let h=`<div class="card"><div class="label">Hạng mục & ngân sách tháng</div><div class="hint" style="margin:4px 0 12px">Để trống ngân sách nếu không muốn theo dõi. Cảnh báo khi chi đạt ngưỡng dưới đây.</div><div id="catEdit">`;
-  h+=cats().map((c,i)=>`<div class="setcat" data-i="${i}"><input class="input ic" data-f="icon" value="${esc(c.icon)}" maxlength="4" aria-label="Biểu tượng"><input class="input" data-f="name" value="${esc(c.name)}" aria-label="Tên"><input class="input" data-f="budget" inputmode="numeric" placeholder="Ngân sách" value="${c.budget?(+c.budget).toLocaleString('vi-VN'):''}" aria-label="Ngân sách"><button class="del" data-delcat="${i}" aria-label="Xóa">✕</button></div>`).join('');
-  h+=`</div><button class="btn ghost sm" id="addCat">＋ Thêm hạng mục</button>
-  <div class="field mt"><label>Ngưỡng cảnh báo (%)</label><input class="input" id="warnPct" inputmode="numeric" value="${esc(st.warnPct)}"></div>
-  <button class="btn pri" id="saveSet">Lưu cài đặt</button></div>`;
-  h+=`<div class="card"><div class="label">Ngân hàng</div>
-  <div class="field mt"><label>Tên ngân hàng</label><input class="input" id="bankName" value="${esc(st.bankName)}"></div>
-  <div class="field"><label>Link mở app ngân hàng</label><input class="input" id="bankLink" value="${esc(st.bankLink)}"><div class="hint">Mặc định dùng link mở app Techcombank của VietQR. Nếu sau này đổi ngân hàng hỗ trợ tự điền, chỉ cần thay ở đây.</div></div>
-  <button class="btn sec" id="saveBank">Lưu</button></div>`;
-  h+=lotSettingsHTML();
-  h+=`<div class="card"><div class="label">Sao lưu</div><div class="sub mt">${S.exp.size} khoản chi · ${S.food.size} quán/món · lưu trên máy này</div>
-  <div class="stack mt"><button class="btn ghost" id="backup">⬇ Tải file sao lưu (.json)</button>
-  <label class="btn ghost" style="cursor:pointer">⬆ Khôi phục từ file<input type="file" id="restore" accept=".json,application/json" hidden></label>
-  <button class="btn ghost" id="exportCSV">📊 Xuất chi tiêu ra Excel (.csv)</button></div>
-  <div class="hint">📱 Ghim ra màn hình chính: Safari → Chia sẻ → <b>Thêm vào MH chính</b> (Android: Chrome → ⋮ → <b>Cài đặt ứng dụng</b>).</div></div>`;
-  $('#v-settings').innerHTML=h;
-}
-function readCatEdit(){
-  return $$('#catEdit .setcat').map(r=>{const i=+r.dataset.i,old=cats()[i]||{};return {id:old.id||('c'+uid()),icon:r.querySelector('[data-f=icon]').value.trim()||'📦',name:r.querySelector('[data-f=name]').value.trim()||'Không tên',budget:parseAmt(r.querySelector('[data-f=budget]').value)};});
-}
-
-/* ===================== Expense sheet ===================== */
-function openSheet(html){$('#sheetBody').innerHTML=html;$('#sheetbg').classList.add('open');$('#sheet').classList.add('open');}
-function closeSheet(){$('#sheetbg').classList.remove('open');$('#sheet').classList.remove('open');}
-let draft=null;
-function openExpense(id){
-  const e=id?S.exp.get(id):null;
-  draft=e?{...e}:{id:uid(),amount:0,cat:null,note:'',method:'ck',ts:Date.now()};
-  const isNew=!e;
-  const d=new Date(draft.ts);
-  const local=d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
-  openSheet(`<h2>${isNew?'Khoản chi mới':'Sửa khoản chi'}<button class="x" data-close>✕</button></h2>
-  <div class="field" id="f-amt"><label>Số tiền (nghìn đồng) <span class="req">*</span></label><div class="kwrap"><input class="input bigamt" id="amt" inputmode="decimal" placeholder="0" value="${draft.amount?String(draft.amount/1000).replace('.',','):''}" autocomplete="off"><span class="ksuf">.000đ</span></div><div class="hint" id="amtHint" style="margin-top:4px">${draft.amount?'= '+fmt(draft.amount):'VD: gõ 100 = 100.000đ'}</div>
-    <div class="chips" style="margin:8px 0 0">${[20e3,30e3,50e3,100e3,200e3,500e3].map(v=>`<button class="chip" data-quick="${v}">${fmtShort(v)}</button>`).join('')}</div><div class="err">Nhập số tiền</div></div>
-  <div class="field" id="f-cat"><label>Hạng mục <span class="req">*</span></label><div class="catgrid">${cats().map(c=>`<button data-cat="${esc(c.id)}" class="${draft.cat===c.id?'on':''}"><span>${esc(c.icon)}</span>${esc(c.name)}</button>`).join('')}</div><div class="err">Chọn hạng mục</div><div class="projection" id="proj"></div></div>
-  <div class="field" id="f-note"><label>Nội dung chi <span class="req">*</span></label><input class="input" id="note" placeholder="VD: Ăn trưa với team, đổ xăng…" value="${esc(draft.note)}" maxlength="120"><div class="err">Ghi lại mục đích chi trước khi thanh toán</div></div>
-  ${isNew?'':`<div class="field"><label>Thời gian</label><input class="input" id="when" type="datetime-local" value="${local}"></div>
-  <div class="field"><label>Hình thức</label><div class="seg" id="methodSeg" style="margin:0"><button data-me="ck" class="${draft.method!=='tm'?'on':''}">Chuyển khoản</button><button data-me="tm" class="${draft.method==='tm'?'on':''}">Tiền mặt</button></div></div>`}
-  <div class="stack">
-  ${isNew?`<a class="btn pri" id="goBank" href="${esc(S.settings.bankLink)}" target="_blank" rel="noopener">Lưu & sang ${esc(S.settings.bankName||'ngân hàng')} →</a>
-  <button class="btn ghost" id="saveCash">Chỉ lưu (tiền mặt)</button>
-  <div class="hint">Bấm nút trên: app lưu khoản chi, <b>copy sẵn nội dung</b>, rồi mở ${esc(S.settings.bankName)}. Quét QR trong app ngân hàng và dán nội dung vào ô lời nhắn.</div>`
-  :`<button class="btn pri" id="saveEdit">Lưu thay đổi</button><button class="btn danger" id="delExp">Xóa khoản chi</button>`}
-  </div>`);
-  const amt=$('#amt');
-  amt.oninput=()=>{amt.value=amt.value.replace(/[^0-9.,]/g,'');const v=parseK(amt.value);draft.amount=v;$('#amtHint').textContent=v?'= '+fmt(v):'VD: gõ 100 = 100.000đ';$('#f-amt').classList.remove('bad');updateProj();};
-  updateProj();
-  if(isNew)setTimeout(()=>amt.focus(),250);
-}
-function updateProj(){
-  const p=$('#proj');if(!p)return;
-  const c=draft.cat&&catById(draft.cat);
-  if(!c||!c.budget||!draft.amount){p.className='projection';return;}
-  const ms=monthSpendByCat(new Date(draft.ts));let spent=ms[c.id]||0;
-  const old=S.exp.get(draft.id);if(old&&old.cat===c.id&&new Date(old.ts).getMonth()===new Date(draft.ts).getMonth())spent-=old.amount;
-  const after=spent+draft.amount,s=budgetStatus(after,c.budget);
-  p.className='projection show '+(s.k||'ok');
-  p.innerHTML=`${s.k==='c'?'⛔':s.k==='w'?'⚠️':'✅'} Sau khoản này, <b>${esc(c.name)}</b> tháng này: ${fmt(after)} / ${fmt(c.budget)} (${Math.round(s.p)}%)${s.k==='c'?' — <b>vượt ngân sách</b>':''}`;
-}
-function validate(){
-  draft.note=($('#note').value||'').trim();
-  const ok={amt:draft.amount>0,cat:!!draft.cat,note:!!draft.note};
-  $('#f-amt').classList.toggle('bad',!ok.amt);$('#f-cat').classList.toggle('bad',!ok.cat);$('#f-note').classList.toggle('bad',!ok.note);
-  return ok.amt&&ok.cat&&ok.note;
-}
-function finalize(method){
-  const c=catById(draft.cat);
-  return {id:draft.id,amount:draft.amount,cat:draft.cat,catName:c?c.name:'',note:draft.note,method,ts:draft.ts,createdAt:draft.createdAt||Date.now(),updatedAt:Date.now()};
-}
-function warnAfterSave(e){
-  const c=catById(e.cat);if(!c||!c.budget)return '';
-  const s=budgetStatus(monthSpendByCat(new Date(e.ts))[c.id]||0,c.budget);
-  return s.k==='c'?` ⛔ ${c.name} đã vượt ngân sách!`:s.k==='w'?` ⚠️ ${c.name} đã dùng ${Math.round(s.p)}% ngân sách.`:'';
-}
-
-/* ===================== Food sheet ===================== */
-let fdraft=null;
-function openFood(id,markTried){
-  const f=id?S.food.get(id):null;
-  fdraft=f?{...f}:{id:uid(),kind:S.foodKind,status:S.foodStatus,name:'',dish:'',area:'',price:'',rating:0,note:'',link:'',createdAt:Date.now()};
-  if(markTried)fdraft.status='tried';
-  openSheet(`<h2>${f?(markTried?'Đánh giá sau khi đi':'Sửa'):'Thêm mới'}<button class="x" data-close>✕</button></h2>
-  <div class="field"><label>Loại</label><div class="seg" id="fk" style="margin:0"><button data-fk="food" class="${fdraft.kind==='food'?'on':''}">🍜 Ăn uống</button><button data-fk="cafe" class="${fdraft.kind==='cafe'?'on':''}">☕ Cafe</button></div></div>
-  <div class="field"><label>Trạng thái</label><div class="seg" id="fs" style="margin:0"><button data-fs="want" class="${fdraft.status==='want'?'on':''}">Muốn thử</button><button data-fs="tried" class="${fdraft.status==='tried'?'on':''}">Đã thử</button></div></div>
-  <div class="field" id="f-fname"><label>Tên quán <span class="req">*</span></label><input class="input" id="fname" value="${esc(fdraft.name)}" placeholder="VD: Phở Thìn, The Workshop…"><div class="err">Nhập tên quán</div></div>
-  <div class="field"><label>${fdraft.kind==='cafe'?'Đồ uống / hạt':'Món'}</label><input class="input" id="fdish" value="${esc(fdraft.dish)}" placeholder="${fdraft.kind==='cafe'?'VD: Pour-over Ethiopia, Cold brew…':'VD: Phở tái lăn, Bún chả…'}"></div>
-  <div class="field"><label>Khu vực / địa chỉ</label><input class="input" id="farea" value="${esc(fdraft.area)}"></div>
-  <div class="field"><label>Giá tham khảo</label><input class="input" id="fprice" value="${esc(fdraft.price)}" placeholder="VD: 60–80k"></div>
-  <div class="field" id="f-rate" style="${fdraft.status==='tried'?'':'display:none'}"><label>Đánh giá</label><div class="stars" id="stars">${[1,2,3,4,5].map(i=>`<button data-star="${i}" class="${i<=fdraft.rating?'on':''}" aria-label="${i} sao">★</button>`).join('')}</div></div>
-  <div class="field"><label>Ghi chú</label><textarea class="input" id="fnote" placeholder="Ai giới thiệu, nên gọi gì, giờ mở cửa…">${esc(fdraft.note)}</textarea></div>
-  <div class="field"><label>Link Google Maps</label><input class="input" id="flink" value="${esc(fdraft.link)}" placeholder="https://maps.app.goo.gl/…"></div>
-  <div class="stack"><button class="btn pri" id="saveFood">Lưu</button>${f?'<button class="btn danger" id="delFood">Xóa</button>':''}</div>`);
-}
-
-/* ===================== Random pick ===================== */
-function openRandom(){
-  const kind=S.foodKind;
-  let pool=[...S.food.values()].filter(f=>f.kind===kind&&f.status==='want');let src='danh sách muốn thử';
-  if(!pool.length){pool=[...S.food.values()].filter(f=>f.kind===kind&&f.status==='tried'&&(f.rating||0)>=4);src='quán đã thử được 4★ trở lên';}
-  if(!pool.length){toast('Chưa có quán nào để chọn — thêm vài quán trước nhé.');return;}
-  const f=pool[Math.floor(Math.random()*pool.length)];
-  openSheet(`<h2>${kind==='cafe'?'☕ Cafe hôm nay':'🍜 Hôm nay ăn'}<button class="x" data-close>✕</button></h2>
-  <div class="card pick"><div class="sub">Chọn ngẫu nhiên từ ${src}</div><div class="big">${esc(f.name)}</div><div class="sub">${[f.dish,f.area,f.price].filter(Boolean).map(esc).join(' · ')}</div>${f.note?`<div class="hint">${esc(f.note)}</div>`:''}</div>
-  <div class="stack"><button class="btn sec" id="reroll">🎲 Chọn lại</button>${f.link?`<a class="btn ghost" href="${esc(f.link)}" target="_blank" rel="noopener">Mở bản đồ ↗</a>`:''}</div>`);
-}
-
-
-/* ===================== Số học ===================== */
-const LOTTO_DEFAULT={people:['Bự','Nam','Thành','Quân','Khiêm'],rateBet:22,rateWin:80};
-const LT={per:'all'};
-const lcfg=()=>Object.assign({},LOTTO_DEFAULT,S.settings.lotto||{});
-const fmtK=n=>{const v=Math.round((n||0)*10)/10;return (v>0?'+':'')+v.toLocaleString('vi-VN',{maximumFractionDigits:1})+'k';};
-const sign=n=>n>0?'pos':n<0?'neg':'';
-function lotTotal(l){const c=lcfg();if(l.res==='wait')return 0;return l.res==='win'?l.pts*(c.rateWin*(l.hits||1)-c.rateBet):-c.rateBet*l.pts;}
-const resLabel=l=>l.res==='win'?'+'+((l.hits||1)>1?' ×'+l.hits:''):l.res==='lose'?'−':'?';
-function lotList(){return [...S.lots.values()].sort((a,b)=>b.date.localeCompare(a.date)||(b.createdAt||0)-(a.createdAt||0));}
-function lotRange(){
-  const now=new Date();
-  if(LT.per==='month'){const a=startOfMonth(now);return [dKey(a),dKey(new Date(a.getFullYear(),a.getMonth()+1,0))];}
-  if(LT.per==='prev'){const a=new Date(now.getFullYear(),now.getMonth()-1,1);return [dKey(a),dKey(new Date(a.getFullYear(),a.getMonth()+1,0))];}
-  return ['0000','9999'];
-}
-function lotStats(rows){
-  const per={};lcfg().people.forEach(p=>per[p]={t:0,n:0});
-  let total=0,plus=0,minus=0,pts=0,dTotal=0,dN=0;
-  rows.forEach(l=>{const t=lotTotal(l);total+=t;if(l.duong){dTotal+=t;dN++;}pts+=l.res==='wait'?0:l.pts;
-    if(l.res==='win')plus++;else if(l.res==='lose')minus++;
-    const ppl=l.people||[];ppl.forEach(p=>{per[p]=per[p]||{t:0,n:0};per[p].t+=t/ppl.length;per[p].n++;});});
-  return {per,total,plus,minus,pts,dTotal,dN};
-}
-function renderLotto(){
-  const [a,b]=lotRange();const rows=lotList().filter(l=>l.date>=a&&l.date<=b);const st=lotStats(rows);
-  let h=`<div class="seg" id="lotPer">${[['month','Tháng này'],['prev','Tháng trước'],['all','Tất cả']].map(([k,t])=>`<button data-lper="${k}" class="${LT.per===k?'on':''}">${t}</button>`).join('')}</div>`;
-  h+=`<div class="card"><div class="label">Tổng cộng</div><div class="hero ${sign(st.total)}">${fmtK(st.total)}</div>
-  <div class="sub">${rows.length} dòng · ${st.plus} dòng + · ${st.minus} dòng − · ${st.pts} điểm</div>
-  <div class="dbox mt"><span>🅳 Tổng Dương <span class="sub">(${st.dN} dòng)</span></span><b class="${sign(st.dTotal)}">${fmtK(st.dTotal)}</b></div>
-  <table class="ltab mt"><thead><tr><th>Người</th><th>Số dòng</th><th style="text-align:right">Tiền</th></tr></thead><tbody>
-  ${Object.entries(st.per).map(([p,v])=>`<tr><td>${esc(p)}</td><td>${v.n}</td><td class="${sign(v.t)}" style="text-align:right;font-weight:600">${fmtK(v.t)}</td></tr>`).join('')}
-  </tbody></table>
-  <div class="row mt" style="gap:8px"><button class="btn pri" id="lotAdd" style="flex:1">＋ Nhập</button><button class="btn ghost" id="lotReport" style="flex:1">📋 Báo cáo</button></div></div>`;
-  if(LT.per==='all'&&rows.length){
-    const months={};rows.forEach(l=>{const m=l.date.slice(0,7);(months[m]=months[m]||[]).push(l);});
-    const ppl=lcfg().people;
-    h+=`<div class="card" style="overflow-x:auto"><div class="label">Theo tháng</div><table class="ltab mt"><thead><tr><th>Tháng</th><th style="text-align:right">Tổng</th><th style="text-align:right">Dương</th>${ppl.map(p=>`<th style="text-align:right">${esc(p)}</th>`).join('')}</tr></thead><tbody>
-    ${Object.keys(months).sort().reverse().map(m=>{const s=lotStats(months[m]);return `<tr><td>${m.slice(5)}/${m.slice(2,4)}</td><td class="${sign(s.total)}" style="text-align:right;font-weight:600">${fmtK(s.total)}</td><td class="${sign(s.dTotal)}" style="text-align:right">${s.dN?fmtK(s.dTotal):'–'}</td>${ppl.map(p=>`<td class="${sign(s.per[p].t)}" style="text-align:right">${s.per[p].n?fmtK(s.per[p].t):'–'}</td>`).join('')}</tr>`;}).join('')}
-    </tbody></table></div>`;
-  }
-  h+=`<div class="card" style="padding-top:4px">`;
-  if(!rows.length)h+=`<div class="empty">Chưa có dữ liệu.<br>Bấm <b>＋ Nhập</b> để thêm.</div>`;
-  else h+=`<div class="hint" style="margin:8px 0 0">Vuốt dòng sang trái để xóa · bấm vào dòng để sửa</div>`;
-  let cur='';
-  rows.forEach(l=>{
-    if(l.date!==cur){cur=l.date;const dt=rows.filter(x=>x.date===cur).reduce((s,x)=>s+lotTotal(x),0);const d=new Date(cur+'T00:00');h+=`<div class="dayhead"><span>${dLabel(d)}/${d.getFullYear()}</span><span class="${sign(dt)}">${fmtK(dt)}</span></div>`;}
-    const t=lotTotal(l),n=(l.people||[]).length;
-    h+=`<div class="swrap"><button class="swdel" data-lotdel="${esc(l.id)}">🗑 Xóa</button><button class="item swi" data-lot="${esc(l.id)}"><div class="ico lnum">${esc(l.num)}</div><div class="t"><div class="n">${l.pts} điểm <span class="lsign ${sign(t)}">${resLabel(l)}</span>${l.duong?' <span class="dtag">Dương</span>':''}</div><div class="m">${esc((l.people||[]).join(', '))}${n?' · mỗi người '+fmtK(t/n):''}${l.note?' · '+esc(l.note):''}</div></div><div class="amt ${sign(t)}">${fmtK(t)}</div></button></div>`;
-  });
-  h+=`</div>`;
-  $('#v-lotto').innerHTML=h;
-}
-
-/* ---- Màn nhập dạng bảng ---- */
-let lform=null; // {editId, date, note, rows:[{num,pts,res,hits,people}]}
-const newRow=prev=>({num:'',pts:prev?prev.pts:5,res:'lose',hits:1,duong:prev?!!prev.duong:false,people:prev?[...prev.people]:[...lcfg().people]});
-const RES_OPTS=[['lose',1,'−'],['win',1,'+'],['win',2,'+ ×2'],['win',3,'+ ×3']];
-function openLot(id){
-  const l=id?S.lots.get(id):null;
-  lform=l?{editId:l.id,date:l.date,note:l.note||'',rows:[{num:l.num,pts:l.pts,res:l.res==='wait'?'lose':l.res,hits:l.hits||1,duong:!!l.duong,people:[...(l.people||[])]}]}
-         :{editId:null,date:dKey(new Date()),note:'',rows:[newRow(),newRow()]};
-  openSheet(`<h2>${l?'Sửa dòng':'Nhập'}<button class="x" data-close>✕</button></h2>
-  <div class="field"><label>Ngày</label><input class="input" type="date" id="ldate" value="${lform.date}"></div>
-  <div class="lgrid lhead"><span>Số</span><span>Điểm</span><span>+/−</span><span>Người tham gia</span><span></span></div>
-  <div id="lrows"></div>
-  ${l?'':'<button class="btn ghost sm" id="lrowAdd" style="width:100%;margin-top:6px">＋ Thêm dòng</button>'}
-  <div class="field mt"><label>Ghi chú</label><input class="input" id="lnote" value="${esc(lform.note)}"></div>
-  <div class="card" id="lsum" style="margin:0 0 12px"></div>
-  <div class="stack"><button class="btn pri" id="lotSave">Lưu</button>${l?'<button class="btn danger" id="lotDel">Xóa dòng</button>':''}</div>`);
-  renderRows();
-}
-function pplLabel(p){const all=lcfg().people;if(!p.length)return 'Chọn người';if(p.length===all.length)return 'Tất cả ('+p.length+')';return p.join(', ');}
-function renderRows(focusIdx){
-  const c=lcfg();
-  $('#lrows').innerHTML=lform.rows.map((r,i)=>{
-    const t=r.num&&r.pts?lotTotal(r):0;
-    return `<div class="lrow" data-row="${i}"><div class="lgrid">
-      <input class="input lin" data-rf="num" inputmode="numeric" maxlength="2" placeholder="--" value="${esc(r.num)}">
-      <input class="input lin" data-rf="pts" inputmode="numeric" placeholder="0" value="${r.pts||''}">
-      <select class="input lin lsel ${r.res==='win'?'pos':'neg'}" data-rf="res">${RES_OPTS.map(([res,h,lab])=>`<option value="${res}|${h}" ${r.res===res&&(res==='lose'||(r.hits||1)===h)?'selected':''}>${lab}</option>`).join('')}</select>
-      <div class="ldd"><button class="input lddbtn" data-ddopen="${i}">${esc(pplLabel(r.people))}<span>▾</span></button>
-        <div class="ddpanel" id="dd${i}"><button class="ddall" data-ddall="${i}">${r.people.length===c.people.length?'Bỏ chọn tất cả':'Chọn tất cả'}</button>${c.people.map(p=>`<label class="ddopt"><input type="checkbox" data-ddp="${i}" value="${esc(p)}" ${r.people.includes(p)?'checked':''}> ${esc(p)}</label>`).join('')}<button class="ddall" data-ddclose style="margin:4px 0 0">Xong</button></div></div>
-      ${lform.editId?'<span></span>':`<button class="del" data-rowdel="${i}" aria-label="Xóa dòng">✕</button>`}
-    </div><div class="lrowfoot"><label class="lduong ${r.duong?'on':''}"><input type="checkbox" data-duong="${i}" ${r.duong?'checked':''}> Dương</label><div class="lrowsum">${r.pts?`${(c.rateBet*r.pts).toLocaleString('vi-VN')}k`:''}${t?` → <b class="${sign(t)}">${fmtK(t)}</b>`:''}${t&&r.people.length?` · mỗi người <b class="${sign(t)}">${fmtK(t/r.people.length)}</b>`:''}</div></div></div>`;
-  }).join('');
-  updSum();
-  if(focusIdx!==undefined){const el=$(`[data-row="${focusIdx}"] [data-rf=num]`);el&&el.focus();}
-}
-function updRowSum(i){
-  const r=lform.rows[i],c=lcfg(),t=r.num&&r.pts?lotTotal(r):0;
-  const el=$(`[data-row="${i}"] .lrowsum`);if(el)el.innerHTML=`${r.pts?`${(c.rateBet*r.pts).toLocaleString('vi-VN')}k`:''}${t?` → <b class="${sign(t)}">${fmtK(t)}</b>`:''}${t&&r.people.length?` · mỗi người <b class="${sign(t)}">${fmtK(t/r.people.length)}</b>`:''}`;
-  updSum();
-}
-function updSum(){
-  const rows=lform.rows.filter(r=>r.num&&r.pts&&r.people.length);
-  const st=lotStats(rows.map(r=>({...r})));
-  const ppl=Object.entries(st.per).filter(([,v])=>v.n);
-  $('#lsum').innerHTML=rows.length?`<div class="row between"><span class="label">Tổng ${rows.length} dòng</span><b class="${sign(st.total)}" style="font-size:18px">${fmtK(st.total)}</b></div>
-   ${st.dN?`<div class="dbox mt"><span>🅳 Dương (${st.dN} dòng)</span><b class="${sign(st.dTotal)}">${fmtK(st.dTotal)}</b></div>`:''}
-   <div class="lchips mt">${ppl.map(([p,v])=>`<span class="lchip">${esc(p)} <b class="${sign(v.t)}">${fmtK(v.t)}</b></span>`).join('')}</div>`:`<div class="sub">Nhập số và điểm để xem tổng.</div>`;
-}
-document.addEventListener('click',ev=>{if(!ev.target.closest('.ldd'))closeDD();},true);
-function closeDD(){$$('.ddpanel.open').forEach(p=>p.classList.remove('open'));}
-document.addEventListener('input',ev=>{
-  const el=ev.target;if(!el.dataset||el.dataset.rf===undefined||!lform)return;
-  const i=+el.closest('[data-row]').dataset.row,r=lform.rows[i];
-  if(el.dataset.rf==='num'){el.value=el.value.replace(/\D/g,'').slice(0,2);r.num=el.value;
-    if(el.value.length===2){const n=el.closest('.lgrid').querySelector('[data-rf=pts]');n&&n.focus();n&&n.select();}}
-  if(el.dataset.rf==='pts'){r.pts=parseAmt(el.value);}
-  updRowSum(i);
+/* ---------- Hành động ---------- */
+const A = {
+  create: () => run(async () => {
+    const name = val('in-name'); S.name = name; LS.set('ms_name', name);
+    let config = {soi:2, dan:2, tientri:1, baove:1}, custom = null;
+    try{ config = JSON.parse(LS.get('ms_config')) || config; custom = JSON.parse(LS.get('ms_custom')); }catch(e){}
+    for(let i=0;i<15;i++){
+      const code = String(Math.floor(1000 + Math.random()*9000));
+      const s = await get(ref(db, 'rooms/' + code));
+      if(!s.exists() || Date.now() - (s.val().created || 0) > 864e5){
+        await set(ref(db, 'rooms/' + code), {host:pid, hostName:name || 'Quản trò', status:'lobby', created:Date.now(), config, custom});
+        return subscribe(code);
+      }
+    }
+    throw new Error('Không tạo được mã phòng, thử lại.');
+  }),
+  join: () => run(async () => {
+    const name = val('in-name'), code = val('in-code');
+    if(!name) throw new Error('Nhập tên của bạn.');
+    if(!/^\d{4}$/.test(code)) throw new Error('Mã phòng gồm 4 số.');
+    S.name = name; LS.set('ms_name', name);
+    const s = await get(ref(db, 'rooms/' + code));
+    if(!s.exists()) throw new Error('Không tìm thấy phòng ' + code + '.');
+    const r = s.val();
+    if(r.host === pid) return subscribe(code);
+    const pl = r.players || {};
+    if(pl[pid]){ await update(ref(db, `rooms/${code}/players/${pid}`), {name}); return subscribe(code); }
+    if(r.status !== 'lobby') throw new Error('Ván đã bắt đầu, chờ ván sau nhé.');
+    if(Object.values(pl).some(p => p.name.toLowerCase() === name.toLowerCase())) throw new Error('Tên này đã có trong phòng, đổi tên khác.');
+    await set(ref(db, `rooms/${code}/players/${pid}`), {name, t:Date.now()});
+    subscribe(code);
+  }),
+  inc: d => update(rref('config'), {[d.k]: Math.max(0, (S.room.config?.[d.k] || 0) + Number(d.v))}),
+  addRole: () => run(async () => {
+    const name = val('in-role'); if(!name) throw new Error('Nhập tên lá bài.');
+    const team = val('in-team') || 'dan', k = 'c' + Date.now().toString(36);
+    document.getElementById('in-role').value = '';
+    await update(rref(), {['custom/' + k]: {name, team, icon: team === 'soi' ? '🐺' : '🃏', desc:'Lá bài tự thêm.'}, ['config/' + k]: 1});
+  }),
+  delRole: d => update(rref(), {['custom/' + d.k]: null, ['config/' + d.k]: null}),
+  kick: d => remove(rref('players/' + d.p)),
+  start: () => run(async () => {
+    const r = S.room, pl = Object.keys(r.players || {}), deck = [];
+    for(const [k, n] of Object.entries(r.config || {})) for(let i=0;i<n;i++) deck.push(k);
+    if(deck.length !== pl.length || pl.length < 3) throw new Error('Số lá bài phải bằng số người chơi (tối thiểu 3).');
+    const alive = {}; pl.forEach(p => alive[p] = true);
+    await update(rref(), {status:'playing', deal:{remaining: shuffle(deck)}, alive, phase:{n:1, t:'dem'}, log:null});
+    LS.set('ms_config', JSON.stringify(r.config)); LS.set('ms_custom', JSON.stringify(r.custom || null));
+  }),
+  draw: () => run(async () => {
+    await runTransaction(rref('deal'), d => {
+      if(d === null) return d;
+      const taken = d.taken || {};
+      if(taken[pid]) return;
+      const rem = Object.values(d.remaining || {});
+      if(!rem.length) return;
+      const [c] = rem.splice(Math.floor(Math.random() * rem.length), 1);
+      return {remaining: rem, taken: {...taken, [pid]: c}};
+    });
+    S.reveal = true;
+  }),
+  flip: () => { S.reveal = !S.reveal; render(); },
+  next: () => { const p = S.room.phase; update(rref(), {phase: p.t === 'dem' ? {n:p.n, t:'ngay'} : {n:p.n + 1, t:'dem'}}); },
+  openKill: d => { S.modal = d.p; render(); },
+  close: () => { S.modal = null; render(); },
+  kill: d => run(async () => {
+    const p = S.modal; S.modal = null;
+    await update(rref(), {['alive/' + p]: false});
+    await push(rref('log'), {ph: phaseLabel(S.room.phase), text: `☠️ ${S.room.players[p].name} chết — ${d.c}`, t: Date.now()});
+  }),
+  revive: d => run(async () => {
+    await update(rref(), {['alive/' + d.p]: true});
+    await push(rref('log'), {ph: phaseLabel(S.room.phase), text: `↺ ${S.room.players[d.p].name} được hồi lại`, t: Date.now()});
+  }),
+  note: () => run(async () => {
+    const t = val('in-note'); if(!t) return;
+    document.getElementById('in-note').value = '';
+    await push(rref('log'), {ph: phaseLabel(S.room.phase), text: t, t: Date.now()});
+  }),
+  delLog: d => remove(rref('log/' + d.k)),
+  end: () => { if(confirm('Kết thúc ván và lật bài cho mọi người xem?')) update(rref(), {status:'ended'}); },
+  newGame: () => update(rref(), {status:'lobby', deal:null, alive:null, phase:null, log:null}),
+  closeRoom: () => { if(confirm('Đóng phòng? Mọi người sẽ bị thoát ra.')) run(async () => { await remove(rref()); leaveLocal(); }); },
+  leave: () => run(async () => { await remove(rref('players/' + pid)); leaveLocal(); })
+};
+appEl.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]');
+  if(el && !el.disabled) A[el.dataset.a](el.dataset);
 });
-document.addEventListener('change',ev=>{
-  const el=ev.target;if(!lform||!el.dataset)return;
-  if(el.dataset.rf==='res'){const i=+el.closest('[data-row]').dataset.row,[res,h]=el.value.split('|');lform.rows[i].res=res;lform.rows[i].hits=+h;el.classList.toggle('pos',res==='win');el.classList.toggle('neg',res!=='win');updRowSum(i);}
-  if(el.dataset.duong!==undefined){const i=+el.dataset.duong;lform.rows[i].duong=el.checked;el.parentElement.classList.toggle('on',el.checked);updSum();return;}
-  if(el.dataset.ddp!==undefined){const i=+el.dataset.ddp,r=lform.rows[i];r.people=lcfg().people.filter(p=>p===el.value?el.checked:r.people.includes(p));
-    const b=$(`[data-ddopen="${i}"]`);b.firstChild.textContent=pplLabel(r.people);$(`[data-ddall="${i}"]`).textContent=r.people.length===lcfg().people.length?'Bỏ chọn tất cả':'Chọn tất cả';updRowSum(i);}
+appEl.addEventListener('keydown', e => {
+  if(e.key !== 'Enter') return;
+  if(e.target.id === 'in-note') A.note();
+  if(e.target.id === 'in-code') A.join();
 });
-function lotReportText(){
-  const [a,b]=lotRange();const rows=lotList().filter(l=>l.date>=a&&l.date<=b);const st=lotStats(rows);
-  const title={month:'Tháng này',prev:'Tháng trước',all:'Tất cả'}[LT.per];
-  let s=`📊 BÁO CÁO SỐ HỌC — ${title}\nTổng: ${fmtK(st.total)} (${rows.length} dòng)\nTổng Dương: ${fmtK(st.dTotal)} (${st.dN} dòng)\n\nTheo người:\n`;
-  Object.entries(st.per).forEach(([p,v])=>{s+=`• ${p}: ${fmtK(v.t)} (${v.n} dòng)\n`;});
-  s+=`\nChi tiết:\n`;
-  [...rows].reverse().forEach(l=>{const d=new Date(l.date+'T00:00');s+=`${pad(d.getDate())}/${pad(d.getMonth()+1)} · ${l.num} · ${l.pts}đ · ${resLabel(l)} · ${fmtK(lotTotal(l))} · ${(l.people||[]).join(', ')}${l.duong?' · Dương':''}\n`;});
-  return s;
-}
-function lotClick(t,ds,ev){
-  if(ds.ddclose!==undefined){closeDD();return true;}
-  if(ds.lper){LT.per=ds.lper;renderLotto();return true;}
-  if(ds.lotdel){const l=S.lots.get(ds.lotdel);if(l){store.deleteLot(l.id);toastAction('Đã xóa số '+l.num+'.','Hoàn tác',()=>store.saveLot(l));}return true;}
-  if(t.id==='lotClear'){if(t.dataset.arm){const n=S.lots.size;S.lots.clear();persist();renderSettings();toast('Đã xóa '+n+' dòng Số học.');}else{t.dataset.arm=1;t.textContent='Bấm lần nữa để xóa toàn bộ';}return true;}
-  if(t.id==='lotAdd'){openLot();return true;}
-  if(ds.lot){openLot(ds.lot);return true;}
-  if(ds.ddopen!==undefined){ev.preventDefault();const p=$('#dd'+ds.ddopen),o=p.classList.contains('open');closeDD();if(!o)p.classList.add('open');return true;}
-  if(ds.ddall!==undefined){const i=+ds.ddall,r=lform.rows[i],all=lcfg().people;r.people=r.people.length===all.length?[]:[...all];renderRows();$('#dd'+i).classList.add('open');return true;}
-  if(t.id==='lrowAdd'){lform.rows.push(newRow(lform.rows[lform.rows.length-1]));renderRows(lform.rows.length-1);return true;}
-  if(ds.rowdel!==undefined){lform.rows.splice(+ds.rowdel,1);if(!lform.rows.length)lform.rows.push(newRow());renderRows();return true;}
-  if(t.id==='lotSave'){
-    const date=$('#ldate').value||dKey(new Date()),note=$('#lnote').value.trim();
-    let bad=false;const good=[];
-    lform.rows.forEach((r,i)=>{const empty=!r.num&&!lform.editId;if(empty)return;
-      const ok=r.num.length>0&&r.pts>0&&r.people.length>0;$(`[data-row="${i}"]`).classList.toggle('bad',!ok);if(!ok)bad=true;else good.push(r);});
-    if(bad){toast('Dòng tô đỏ còn thiếu số, điểm hoặc người.');return true;}
-    if(!good.length){toast('Chưa nhập dòng nào.');return true;}
-    good.forEach((r,i)=>{const id=lform.editId||uid();const old=S.lots.get(id);
-      store.saveLot({id,date,num:r.num.padStart(2,'0'),pts:r.pts,res:r.res,hits:r.res==='win'?r.hits:1,duong:!!r.duong,people:lcfg().people.filter(p=>r.people.includes(p)),note,createdAt:old?old.createdAt:Date.now()+i,updatedAt:Date.now()});});
-    closeSheet();lform=null;toast(`Đã lưu ${good.length} dòng.`);return true;
-  }
-  if(t.id==='lotDel'){if(t.dataset.arm){store.deleteLot(lform.editId);closeSheet();lform=null;toast('Đã xóa.');}else{t.dataset.arm=1;t.textContent='Bấm lần nữa để xác nhận xóa';}return true;}
-  if(t.id==='lotReport'){
-    const txt=lotReportText();
-    openSheet(`<h2>Báo cáo<button class="x" data-close>✕</button></h2><textarea class="input" style="min-height:50vh;font-size:13px" readonly id="lrep">${esc(txt)}</textarea><div class="stack mt"><button class="btn pri" id="lotCopy">📋 Copy báo cáo</button></div>`);return true;
-  }
-  if(t.id==='lotCopy'){navigator.clipboard.writeText($('#lrep').value).then(()=>toast('Đã copy — dán vào Zalo/Messenger.'),()=>{$('#lrep').select();toast('Hãy bôi đen và copy thủ công.');});return true;}
-  if(t.id==='savePpl'){
-    const ppl=$('#lpeople').value.split(/[,\n]+/).map(s=>s.trim()).filter(Boolean);
-    S.settings.lotto={people:ppl.length?ppl:LOTTO_DEFAULT.people,rateBet:parseAmt($('#lrateBet').value)||22,rateWin:parseAmt($('#lrateWin').value)||80};
-    store.saveSettings();renderSettings();toast('Đã lưu.');return true;
-  }
-  return false;
-}
-function lotSettingsHTML(){const c=lcfg();return `<div class="card"><div class="label">Số học</div>
-  <div class="field mt"><label>Người tham gia (cách nhau dấu phẩy)</label><input class="input" id="lpeople" value="${esc(c.people.join(', '))}"></div>
-  <div class="grid2"><div class="field"><label>Tiền / điểm (k)</label><input class="input" id="lrateBet" inputmode="numeric" value="${c.rateBet}"></div><div class="field"><label>Hệ số + / điểm (k)</label><input class="input" id="lrateWin" inputmode="numeric" value="${c.rateWin}"></div></div>
-  <div class="hint" style="margin:-4px 0 12px">− : −${c.rateBet} × điểm · + ×n : điểm × (${c.rateWin} × n − ${c.rateBet})</div>
-  <div class="stack"><button class="btn sec" id="savePpl">Lưu</button><button class="btn danger" id="lotClear">Xóa toàn bộ dữ liệu Số học</button></div></div>`;}
-function seedLotto(){
-  if(LS.get('lot_seeded',false)||S.lots.size)return;
-  const four=['Nam','Thành','Quân','Khiêm'],three=['Nam','Thành','Khiêm'];
-  const note='cái này nam thu, ko tính với Dương';
-  [['2026-10-03','26',three,note],['2026-10-03','62',three,note],['2026-10-10','24',four,''],['2026-10-10','42',four,''],['2026-10-10','23',['Nam'],'']]
-   .forEach(([date,num,people,n],i)=>{const l={id:'seed'+i,date,num,pts:5,res:'lose',hits:1,people,note:n,createdAt:i};S.lots.set(l.id,l);});
-  LS.set('lot_seeded',true);persist();
+
+/* ---------- Giao diện ---------- */
+const teamTag = t => t === 'soi' ? '<span class="tag soi">Phe Sói</span>' : '<span class="tag dan">Phe Dân</span>';
+const btn = (a, label, cls='', data={}) => `<button class="${cls}" data-a="${a}" ${Object.entries(data).map(([k,v]) => `data-${k}="${esc(v)}"`).join(' ')} ${S.busy ? 'disabled' : ''}>${label}</button>`;
+const msg = () => S.msg ? `<div class="msg">${esc(S.msg)}</div>` : '';
+const header = (r, right='') => `<div class="top"><div><h1>🐺 Phòng ${S.code}</h1><div class="muted"><span class="dot ${S.online ? '' : 'off'}"></span> ${S.online ? 'Đang kết nối' : 'Mất mạng'} · ${r.host === pid ? 'Bạn là Quản trò' : esc(r.players[pid].name)}</div></div>${right}</div>`;
+
+function vHome(){
+  return `<div class="top"><h1>🐺 Ma Sói</h1><span class="muted"><span class="dot ${S.online ? '' : 'off'}"></span></span></div><div class="muted">1 người làm Quản trò tạo phòng, mọi người vào bằng mã 4 số.</div>${msg()}
+  <div class="card"><label class="muted">Tên của bạn</label><input id="in-name" value="${esc(S.name)}" placeholder="VD: Nam" maxlength="20"></div>
+  <div class="card"><h2 style="margin-top:0">Người chơi</h2>
+    <div class="row"><input id="in-code" inputmode="numeric" maxlength="4" placeholder="Mã phòng">${btn('join','Vào phòng','pri fx')}</div></div>
+  <div class="card"><h2 style="margin-top:0">Quản trò</h2>${btn('create','Tạo phòng mới','full ghost')}</div>`;
 }
 
-/* ---- Vuốt để xóa ---- */
-let sw=null,swSuppress=false;
-function closeSwipes(except){$$('.swi.open').forEach(el=>{if(el!==except){el.classList.remove('open');el.style.transform='';}});}
-document.addEventListener('pointerdown',e=>{const it=e.target.closest('.swi');if(!e.target.closest('.swdel'))closeSwipes(it);if(!it)return;sw={el:it,x:e.clientX,y:e.clientY,base:it.classList.contains('open')?-88:0,moved:false,v:0};});
-document.addEventListener('pointermove',e=>{if(!sw)return;const dx=e.clientX-sw.x,dy=e.clientY-sw.y;
-  if(!sw.moved){if(Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)){sw.moved=true;sw.el.style.transition='none';}else if(Math.abs(dy)>8){sw=null;return;}else return;}
-  sw.v=Math.min(0,Math.max(-130,sw.base+dx));sw.el.style.transform=`translateX(${sw.v}px)`;});
-function swEnd(){if(!sw)return;if(sw.moved){sw.el.style.transition='';const open=sw.v<-44;sw.el.style.transform=open?'translateX(-88px)':'';sw.el.classList.toggle('open',open);swSuppress=true;setTimeout(()=>swSuppress=false,80);}sw=null;}
-document.addEventListener('pointerup',swEnd);document.addEventListener('pointercancel',swEnd);
-document.addEventListener('click',e=>{if(swSuppress){e.stopPropagation();e.preventDefault();return;}const it=e.target.closest('.swi.open');if(it){e.stopPropagation();e.preventDefault();closeSwipes();}},true);
-function toastAction(msg,label,fn){const t=$('#toast');t.innerHTML=esc(msg)+` <button id="toastAct" style="border:0;background:none;color:#7fd1c5;font-weight:700;margin-left:8px">${esc(label)}</button>`;t.style.pointerEvents='auto';t.classList.add('show');
-  $('#toastAct').onclick=()=>{fn();t.classList.remove('show');t.style.pointerEvents='none';};clearTimeout(t._t);t._t=setTimeout(()=>{t.classList.remove('show');t.style.pointerEvents='none';},5000);}
-
-/* ===================== Router & events ===================== */
-const TITLES={home:'Tổng quan',spend:'Chi tiêu',food:'Ăn uống & Cafe',lotto:'Số học',settings:'Cài đặt'};
-function go(v){
-  S.view=v;$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));
-  $$('nav.tab button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
-  $('#title').textContent=TITLES[v];
-  try{history.replaceState(null,'',v==='home'?location.pathname:'#'+v);}catch(e){}
-  window.scrollTo(0,0);renderAll();
-}
-function renderAll(){
-  if(S.view==='home')renderHome();
-  else if(S.view==='spend')renderSpend();
-  else if(S.view==='food')renderFood();
-  else if(S.view==='lotto')renderLotto();
-  else if(S.view==='settings'&&!document.activeElement.closest?.('#v-settings'))renderSettings();
-  else if(S.view==='settings'&&!$('#v-settings').innerHTML)renderSettings();
+function vHostLobby(r){
+  const pl = Object.entries(r.players || {}).sort((a,b) => a[1].t - b[1].t), R = roles(r), cfg = r.config || {};
+  const total = Object.values(cfg).reduce((s,n) => s + n, 0), n = pl.length, okk = total === n && n >= 3;
+  return `${header(r)}${msg()}
+  <div class="card" style="text-align:center"><div class="muted">Mã phòng — mọi người mở Ma sói và nhập mã này</div><div class="code">${S.code}</div></div>
+  <h2>Người chơi (${n})</h2><div class="card list">${pl.length ? pl.map(([p,v]) => `<div><span class="nm">${esc(v.name)}</span>${btn('kick','✕','sm ghost',{p})}</div>`).join('') : '<div class="muted">Chưa có ai vào…</div>'}</div>
+  <h2>Lá bài trong ván</h2><div class="card list">
+    ${Object.entries(R).map(([k,v]) => `<div><span style="font-size:22px">${v.icon}</span><span class="nm">${esc(v.name)} ${teamTag(v.team)}${r.custom?.[k] ? ' ' + btn('delRole','xóa','sm ghost',{k}) : ''}</span>
+      <span class="step">${btn('inc','−','',{k,v:-1})}<b>${cfg[k] || 0}</b>${btn('inc','+','',{k,v:1})}</span></div>`).join('')}
+    <div class="row"><input id="in-role" placeholder="Thêm lá bài khác…" maxlength="20"><select id="in-team" class="fx" style="width:96px"><option value="dan">Dân</option><option value="soi">Sói</option></select>${btn('addRole','+','fx')}</div>
+  </div>
+  <div class="total ${okk ? 'ok' : 'bad'}">${total} lá bài / ${n} người chơi${!okk ? (n < 3 ? ' — cần ít nhất 3 người' : total > n ? ` — bớt ${total - n} lá` : ` — thêm ${n - total} lá`) : ' ✓'}</div>
+  <button class="pri full" data-a="start" ${okk && !S.busy ? '' : 'disabled'}>▶ Bắt đầu</button>
+  ${btn('closeRoom','Đóng phòng','ghost full')}`;
 }
 
-document.addEventListener('click',async ev=>{
-  const t=ev.target.closest('button,a,[data-close],path,rect');if(!t)return;
-  const ds=t.dataset||{};
-  if(t.closest('nav.tab')){if(t.id==='fab'){openExpense();return;}if(ds.v){go(ds.v);return;}}
-  if(ds.go){ev.preventDefault();go(ds.go);return;}
-  if(ds.close!==undefined){closeSheet();return;}
-  if(t.id==='gear'){go('settings');return;}
-  if(lotClick(t,ds,ev))return;
-  if(ds.exp){openExpense(ds.exp);return;}
-  // spend controls
-  if(ds.m){S.per=ds.m;S.anchor=new Date();S.selBar=null;renderSpend();return;}
-  if(t.id==='perPrev'){shiftPeriod(-1);return;} if(t.id==='perNext'){shiftPeriod(1);return;}
-  if(ds.cf!==undefined){S.catF=ds.cf||null;S.selBar=null;renderSpend();return;}
-  if(ds.bar!==undefined){
-    const i=+ds.bar;S.selBar=S.selBar===i?null:i;const d=new Date(+ds.d),v=+ds.v;renderSpend();
-    if(S.selBar!==null)$('#readout').innerHTML=`<b>${dLabel(d)}</b>: ${fmt(v)}`;return;
-  }
-  // expense sheet
-  if(ds.quick){draft.amount=+ds.quick;$('#amt').value=String(draft.amount/1000);$('#amtHint').textContent='= '+fmt(draft.amount);$('#f-amt').classList.remove('bad');updateProj();return;}
-  if(ds.cat){draft.cat=ds.cat;$$('.catgrid button').forEach(b=>b.classList.toggle('on',b.dataset.cat===ds.cat));$('#f-cat').classList.remove('bad');updateProj();return;}
-  if(ds.me){draft.method=ds.me;$$('#methodSeg button').forEach(b=>b.classList.toggle('on',b.dataset.me===ds.me));return;}
-  if(t.id==='goBank'){
-    if(!validate()){ev.preventDefault();return;}
-    draft.ts=Date.now();const e=finalize('ck');
-    store.saveExpense(e); // ghi hàng chờ ngay, trước khi rời trang
-    try{navigator.clipboard.writeText(e.note).catch(()=>{});}catch(err){}
-    closeSheet();toast('Đã lưu & copy nội dung "'+e.note+'".'+warnAfterSave(e),4000);
-    return; // để link mở app ngân hàng
-  }
-  if(t.id==='saveCash'){if(!validate())return;draft.ts=Date.now();const e=finalize('tm');store.saveExpense(e);closeSheet();toast('Đã lưu khoản chi.'+warnAfterSave(e),3500);return;}
-  if(t.id==='saveEdit'){
-    if(!validate())return;const w=$('#when').value;if(w)draft.ts=new Date(w).getTime();
-    const e=finalize(draft.method||'ck');store.saveExpense(e);closeSheet();toast('Đã cập nhật.'+warnAfterSave(e));return;
-  }
-  if(t.id==='delExp'){if(t.dataset.arm){store.deleteExpense(draft.id);closeSheet();toast('Đã xóa khoản chi.');}else{t.dataset.arm=1;t.textContent='Bấm lần nữa để xác nhận xóa';}return;}
-  // food
-  if(ds.k){S.foodKind=ds.k;renderFood();return;}
-  if(ds.s){S.foodStatus=ds.s;renderFood();return;}
-  if(t.id==='btnAddFood'){openFood();return;}
-  if(t.id==='btnRandom'||t.id==='reroll'){openRandom();return;}
-  if(ds.food){openFood(ds.food);return;}
-  if(ds.tried){openFood(ds.tried,true);return;}
-  if(ds.fk){fdraft.kind=ds.fk;$$('#fk button').forEach(b=>b.classList.toggle('on',b.dataset.fk===ds.fk));return;}
-  if(ds.fs){fdraft.status=ds.fs;$$('#fs button').forEach(b=>b.classList.toggle('on',b.dataset.fs===ds.fs));$('#f-rate').style.display=ds.fs==='tried'?'':'none';return;}
-  if(ds.star){fdraft.rating=+ds.star===fdraft.rating?0:+ds.star;$$('#stars button').forEach(b=>b.classList.toggle('on',+b.dataset.star<=fdraft.rating));return;}
-  if(t.id==='saveFood'){
-    const name=$('#fname').value.trim();if(!name){$('#f-fname').classList.add('bad');return;}
-    let link=$('#flink').value.trim();if(link&&!/^https?:\/\//i.test(link))link='https://'+link;
-    const f={...fdraft,name,dish:$('#fdish').value.trim(),area:$('#farea').value.trim(),price:$('#fprice').value.trim(),note:$('#fnote').value.trim(),link,updatedAt:Date.now()};
-    if(f.status==='want')f.rating=0;
-    store.saveFood(f);closeSheet();S.foodKind=f.kind;S.foodStatus=f.status;renderFood();toast('Đã lưu.');return;
-  }
-  if(t.id==='delFood'){if(t.dataset.arm){store.deleteFood(fdraft.id);closeSheet();toast('Đã xóa.');}else{t.dataset.arm=1;t.textContent='Bấm lần nữa để xác nhận xóa';}return;}
-  // settings
-  if(t.id==='addCat'){S.settings.cats=[...readCatEdit(),{id:'c'+uid(),icon:'📦',name:'Hạng mục mới',budget:0}];renderSettings();return;}
-  if(ds.delcat!==undefined){const arr=readCatEdit();arr.splice(+ds.delcat,1);S.settings.cats=arr;renderSettings();toast('Bấm "Lưu cài đặt" để áp dụng.');return;}
-  if(t.id==='saveSet'){S.settings.cats=readCatEdit();S.settings.warnPct=Math.min(100,Math.max(1,parseAmt($('#warnPct').value)||80));await store.saveSettings();renderSettings();toast('Đã lưu cài đặt.');return;}
-  if(t.id==='saveBank'){let l=$('#bankLink').value.trim()||DEFAULT_SETTINGS.bankLink;if(!/^https?:\/\//i.test(l))l='https://'+l;S.settings.bankLink=l;S.settings.bankName=$('#bankName').value.trim()||'ngân hàng';await store.saveSettings();renderSettings();toast('Đã lưu.');return;}
-  if(t.id==='saveSync'){
-    let url=$('#sheetUrl').value.trim();const key=$('#sheetKey').value.trim();
-    SYNC.cfg={url,key};if(!url){updSync();toast('Đã tắt đồng bộ.');return;}
-    t.textContent='Đang kiểm tra…';
-    try{const j=await callSheet({action:'ping'});toast('Kết nối OK'+(j.count?` — Sheets đang có ${j.count} khoản chi`:'')+'.',4000);
-      if(!LS.get('last_sync',0)&&!j.count){enqueue({t:'settings',op:'up',id:'settings',d:S.settings});[...S.exp.values()].forEach(e=>enqueue({t:'exp',op:'up',id:e.id,d:e}));[...S.food.values()].forEach(f=>enqueue({t:'food',op:'up',id:f.id,d:f}));}
-      syncNow();}
-    catch(err){toast('Không kết nối được: '+err.message,4500);}
-    renderSettings();return;
-  }
-  if(t.id==='syncNow'){syncNow(true);return;}
-  if(t.id==='pullSheet'){
-    if(!t.dataset.arm){t.dataset.arm=1;t.textContent='Bấm lần nữa: thay dữ liệu máy bằng Sheets';return;}
-    try{const j=await pullFromSheet();toast(`Đã tải ${(j.exp||[]).length} khoản chi, ${(j.food||[]).length} quán/món.`);}catch(err){toast('Lỗi: '+err.message,4000);}
-    renderSettings();return;
-  }
-  if(t.id==='backup'){downloadFile('superapp-saoluu-'+dKey(new Date())+'.json',JSON.stringify({v:1,exp:[...S.exp.values()],food:[...S.food.values()],lots:[...S.lots.values()],settings:S.settings}),'application/json');return;}
-  if(t.id==='exportCSV'){
-    const rows=[['Ngày','Giờ','Hạng mục','Nội dung','Số tiền','Hình thức']].concat(expList().map(e=>{const d=new Date(e.ts);return [dKey(d),pad(d.getHours())+':'+pad(d.getMinutes()),catOf(e).name,e.note,e.amount,e.method==='tm'?'Tiền mặt':'Chuyển khoản'];}));
-    const csv='\ufeff'+rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\n');
-    downloadFile('chi-tieu-'+dKey(new Date())+'.csv',csv,'text/csv');return;
-  }
-});
-$('#sheetbg').onclick=closeSheet;
-document.addEventListener('change',async ev=>{
-  if(ev.target.id!=='restore'||!ev.target.files[0])return;
-  try{const j=JSON.parse(await ev.target.files[0].text());if(!j.exp)throw 0;
-    S.exp=new Map(j.exp.map(e=>[e.id,e]));S.food=new Map((j.food||[]).map(f=>[f.id,f]));S.lots=new Map((j.lots||[]).map(l=>[l.id,l]));if(j.settings)S.settings=Object.assign(structuredClone(DEFAULT_SETTINGS),j.settings);
-    persist();enqueue({t:'settings',op:'up',id:'settings',d:S.settings});j.exp.forEach(e=>enqueue({t:'exp',op:'up',id:e.id,d:e}));(j.food||[]).forEach(f=>enqueue({t:'food',op:'up',id:f.id,d:f}));
-    renderSettings();toast('Đã khôi phục '+j.exp.length+' khoản chi.');}
-  catch(e){toast('File không hợp lệ.');}
-});
-$('#foodSearch').oninput=renderFood;
-document.addEventListener('input',ev=>{const el=ev.target;if(el.dataset&&el.dataset.f==='budget'){const v=parseAmt(el.value);el.value=v?v.toLocaleString('vi-VN'):'';}});
+function vPlayerLobby(r){
+  const pl = Object.values(r.players || {}).sort((a,b) => a.t - b.t);
+  return `${header(r)}${msg()}<div class="card" style="text-align:center"><div style="font-size:48px">⏳</div><b>Đang chờ Quản trò chọn bài và bắt đầu…</b></div>
+  <h2>Trong phòng (${pl.length})</h2><div class="card list">${pl.map(v => `<div><span class="nm">${esc(v.name)}</span></div>`).join('')}</div>
+  ${btn('leave','Rời phòng','ghost full')}`;
+}
 
-/* ===================== Boot ===================== */
-const h0=(location.hash||'').slice(1);
-go(TITLES[h0]?h0:'home');
-boot();
+function aliveStats(r){
+  const R = roles(r), taken = r.deal?.taken || {}, al = r.alive || {};
+  let soi = 0, dan = 0;
+  for(const [p, k] of Object.entries(taken)) if(al[p]) (R[k]?.team === 'soi' ? soi++ : dan++);
+  return {soi, dan};
+}
+
+function vHostPlay(r){
+  const R = roles(r), taken = r.deal?.taken || {}, al = r.alive || {}, ph = r.phase;
+  const pl = Object.entries(r.players || {}).sort((a,b) => a[1].t - b[1].t);
+  const drawn = Object.keys(taken).length, all = drawn === pl.length;
+  const {soi, dan} = aliveStats(r);
+  const win = all ? (soi === 0 ? 'Hết Sói — Phe Dân có thể đã thắng.' : soi >= dan ? 'Số Sói ≥ phe Dân — Phe Sói có thể đã thắng.' : '') : '';
+  const order = Object.entries(R).filter(([k,v]) => v.order && (r.config?.[k] || 0) > 0 && (!v.firstNight || ph.n === 1)).sort((a,b) => a[1].order - b[1].order);
+  const log = Object.entries(r.log || {}).sort((a,b) => b[1].t - a[1].t);
+  const nextLbl = ph.t === 'dem' ? `→ ☀️ Ngày ${ph.n}` : `→ 🌙 Đêm ${ph.n + 1}`;
+  return `${header(r)}${msg()}
+  <div class="card"><div class="top"><b style="font-size:20px">${phaseLabel(ph)}</b>${btn('next', nextLbl, 'pri fx')}</div>
+    <div class="muted" style="margin-top:6px">Còn sống: 🐺 Sói ${soi} · 🧑‍🌾 Phe Dân ${dan}${all ? '' : ` · Đã bốc bài ${drawn}/${pl.length}`}</div>
+    ${win ? `<div class="hint">${win}</div>` : ''}
+    ${ph.t === 'dem' && order.length ? `<div class="muted" style="margin:10px 0 6px">Thứ tự gọi đêm nay</div><div class="order">${order.map(([k,v],i) => `<span>${i+1}. ${v.icon} ${esc(v.name)}</span>`).join('')}</div>` : ''}
+  </div>
+  <h2>Người chơi</h2><div class="card list">${pl.map(([p,v]) => { const k = taken[p], ro = R[k];
+    return `<div class="${al[p] ? '' : 'dead'}"><span style="font-size:22px">${ro ? ro.icon : '❔'}</span>
+      <span class="nm"><b>${esc(v.name)}</b><br><span class="muted">${ro ? esc(ro.name) : 'chưa bốc bài'}</span></span>
+      ${al[p] ? btn('openKill','☠️ Chết','sm red',{p}) : btn('revive','↺','sm ghost',{p})}</div>`; }).join('')}</div>
+  <h2>Ghi chú diễn biến</h2><div class="card">
+    <div class="row"><input id="in-note" placeholder="VD: Sói cắn An, Bảo vệ cứu An" maxlength="120">${btn('note','Ghi','fx')}</div>
+    <div class="log" style="margin-top:8px">${log.length ? log.map(([k,v]) => `<div><span class="ph">${esc(v.ph)}</span><span style="flex:1">${esc(v.text)}</span>${btn('delLog','✕','sm ghost',{k})}</div>`).join('') : '<div class="muted">Chưa có ghi chú.</div>'}</div>
+  </div>
+  ${btn('end','Kết thúc ván & lật bài','ghost full')}${btn('newGame','Ván mới (giữ người chơi)','ghost full')}${btn('closeRoom','Đóng phòng','ghost full')}
+  ${S.modal ? `<div class="modal"><div><b>${esc(r.players[S.modal]?.name)} chết vì…</b>
+    ${CAUSES.map(c => btn('kill', c, 'full', {c})).join('')}${btn('close','Hủy','ghost full')}</div></div>` : ''}`;
+}
+
+function vPlayerPlay(r){
+  const R = roles(r), k = r.deal?.taken?.[pid], ro = R[k], al = r.alive || {};
+  const pl = Object.entries(r.players || {}).sort((a,b) => a[1].t - b[1].t);
+  let card;
+  if(!k) card = `<div class="card" style="text-align:center"><div style="font-size:48px">🎴</div><b>Quản trò đã sẵn sàng!</b><div class="muted">Bấm để nhận lá bài của bạn</div>${btn('draw','Chọn bài','pri full')}</div>`;
+  else if(S.reveal) card = `<div class="bigcard" data-a="flip"><div class="ic">${ro?.icon || '🃏'}</div><div class="rn">${esc(ro?.name || k)}</div>${teamTag(ro?.team)}<p class="muted">${esc(ro?.desc || '')}</p><div class="muted">Chạm để úp bài</div></div>`;
+  else card = `<div class="bigcard back" data-a="flip"><div class="ic">🂠</div><div class="rn">Lá bài của bạn</div><div class="muted">Chạm để xem — nhớ che màn hình</div></div>`;
+  return `${header(r)}${msg()}<div class="muted" style="margin:8px 0">${phaseLabel(r.phase)}</div>
+  ${k && al[pid] === false ? '<div class="banner">☠️ Bạn đã chết — giữ im lặng nhé</div>' : ''}${card}
+  <h2>Người chơi</h2><div class="card list">${pl.map(([p,v]) => `<div class="${al[p] === false ? 'dead' : ''}"><span class="nm">${esc(v.name)}${p === pid ? ' (bạn)' : ''}</span>${al[p] === false ? '<span class="tag">đã chết</span>' : ''}</div>`).join('')}</div>`;
+}
+
+function vEnded(r){
+  const R = roles(r), taken = r.deal?.taken || {}, al = r.alive || {}, isHost = r.host === pid;
+  const pl = Object.entries(r.players || {}).sort((a,b) => a[1].t - b[1].t);
+  const log = Object.values(r.log || {}).sort((a,b) => a.t - b.t);
+  return `${header(r)}${msg()}<div class="card" style="text-align:center"><b style="font-size:20px">🏁 Ván đã kết thúc</b><div class="muted">Lật bài toàn bộ người chơi</div></div>
+  <div class="card list">${pl.map(([p,v]) => { const ro = R[taken[p]];
+    return `<div class="${al[p] === false ? 'dead' : ''}"><span style="font-size:22px">${ro?.icon || '❔'}</span><span class="nm"><b>${esc(v.name)}</b><br><span class="muted">${esc(ro?.name || 'chưa bốc')}</span></span>${ro ? teamTag(ro.team) : ''}</div>`; }).join('')}</div>
+  ${log.length ? `<h2>Diễn biến</h2><div class="card log">${log.map(v => `<div><span class="ph">${esc(v.ph)}</span><span>${esc(v.text)}</span></div>`).join('')}</div>` : ''}
+  ${isHost ? btn('newGame','Ván mới (giữ người chơi)','pri full') + btn('closeRoom','Đóng phòng','ghost full') : '<div class="muted" style="text-align:center">Chờ Quản trò mở ván mới…</div>'}`;
+}
+
+function view(){
+  if(!S.code) return vHome();
+  const r = S.room;
+  if(!r) return '<p class="muted">Đang vào phòng…</p>';
+  const host = r.host === pid;
+  if(r.status === 'lobby') return host ? vHostLobby(r) : vPlayerLobby(r);
+  if(r.status === 'playing') return host ? vHostPlay(r) : vPlayerPlay(r);
+  return vEnded(r);
+}
+
+function render(){
+  const keep = {};
+  appEl.querySelectorAll('input,select').forEach(e => { if(e.id) keep[e.id] = e.value; });
+  const ae = document.activeElement, aid = ae && appEl.contains(ae) ? ae.id : null;
+  let sel = null; try{ sel = [ae.selectionStart, ae.selectionEnd]; }catch(e){}
+  appEl.innerHTML = view();
+  for(const [id, v] of Object.entries(keep)){ const e = document.getElementById(id); if(e) e.value = v; }
+  if(aid){ const e = document.getElementById(aid); if(e){ e.focus(); try{ if(sel && sel[0] != null) e.setSelectionRange(sel[0], sel[1]); }catch(x){} } }
+}
+
+onValue(ref(db, '.info/connected'), s => { S.online = !!s.val(); render(); });
+const saved = LS.get('ms_code');
+if(saved) subscribe(saved); else render();
 </script>
 </body>
 </html>
